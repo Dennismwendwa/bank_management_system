@@ -30,4 +30,19 @@ class BankAccount {
         double balance;
 
 };
+
+
+class SavingAccount : public BankAccount {
+    public:
+        SavingAccount(std::string ah, std::an, double b, std::date, double rate
+                ) : BackAccount(ah, an, b), created_on(date), interest_rate(rate);
+
+    private:
+        std::string created_on;
+        double interest_rate;
+        double minimum_balance;
+        int monthly_withdraws;
+        int max_withdrawals;
+        std::string account_type;
+};
 #endif

@@ -74,3 +74,22 @@ void BankAccount::transfer(BankAccount& to, double amount) {
         cout << "Avaialable Balance: " << getBalance() - 100 << endl;
     }
 }
+
+SavingAccount::SavingAccount(std::string ah, std::an, double b, std::date, double rate
+        ) : BackAccount(ah, an, b), created_on(date), interest_rate(rate) {
+        minimum_balance = 10000;
+        monthly_withdrawals = 0;
+        max_withdrawals = 3;
+        account_type = "Basic";
+    }
+
+void SavingAccount::setCreatedOn(std::string new_date) {
+    created_on = new_date;
+}
+std::string getCreatedOn() {
+    return created_on;
+}
+
+void SavingAccount::setInterestRate(double new_interest_rate) {
+    interest                                                                 
+}
