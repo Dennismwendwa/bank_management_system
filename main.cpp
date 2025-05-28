@@ -2,32 +2,35 @@
 
 int main() {
 
-    BankAccount acc("Alice", "ACC123", 1000.0);
-    acc.setBalance(500.0);
+    SavingAccount* acc = nullptr;
+    SavingAccount* acc2 = nullptr;
 
-    BankAccount acc2("Dennis", "ACC222", 10000.0);
+    try {
+            acc = new SavingAccount("Alice", "ACC123", 30000.0, 4.5);
+        } catch (const std::invalid_argument& e) {
+            cerr << "Failed to create Alice's account: " << e.what() << endl;
+        }
 
-    std::cout << "Account Holder: " << acc.getAccountHolder() << std::endl;
-    std::cout << "Account Number: " << acc.getAccountNumber() << std::endl;
-    cout << "Balance: " << acc.getBalance() << endl;
-    cout << endl;
-    cout << endl;
+    try {
+            acc2 = new SavingAccount("Dennis", "ACC222", 30000.0, 4.5);
+        } catch (const std::invalid_argument& e) {
+            cerr << "Failed to create Dennis's account: " << e.what() << endl;
+        }
 
-    std::cout << "Account Holder: " << acc2.getAccountHolder() << std::endl;
-    std::cout << "Account Number: " << acc2.getAccountNumber() << std::endl;
-    cout << "Balance: " << acc2.getBalance() << endl;
-    cout << endl;
-    cout << endl;
+    if (acc != nullptr) {
+        //acc->showAccountDetails();
+        cout << endl;
+    }
 
-    acc.deposit(333.0);
-    cout << "Balance: " << acc.getBalance() << endl;
-
-    acc2.withdraw(4444.0);
-    cout << "Balance: " << acc2.getBalance() << endl;
+    if (acc2 != nullptr) {
+        acc2->showAccountDetails();
+        acc2->transfer(*acc, 7000);
+        acc2->withdraw(8000);
+        cout << endl;
+        acc2->showAccountDetails();
+    }
     
-    acc2.transfer(acc, 666.0);
-    cout << "Balance: " << acc2.getBalance() << endl;
-    cout << "Balance: " << acc.getBalance() << endl;
-
+    delete acc;
+    delete acc2;
     return 0;
 }
