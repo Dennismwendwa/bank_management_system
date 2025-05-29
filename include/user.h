@@ -1,23 +1,22 @@
 #ifndef USER_H
 #define USER_H
 #include <iostream>
-#include <iostream>
-
 
 using namespace std;
 
 class User {
     public:
+	User(std::string fn, std::string ln, std::string u, std::string em);
         void setFirstName(std::string new_first_name);
         std::string getFirstName();
         void setLastName(std::string new_last_name);
         std::string getLastName();
         void setUsername(std::string new_username);
-        std::getUsername();
+        std::string getUsername();
         void setEmail(std::string new_email);
         std::string getEmail();
         void setPassword(std::string new_password);
-        std::getPassword();
+        std::string getPassword();
 
     private:
         std::string first_name;
@@ -25,7 +24,6 @@ class User {
         std::string username;
         std::string email;
         std::string password;
-
 };
 
 #endif

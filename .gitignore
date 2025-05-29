@@ -1,1 +1,5 @@
-main
+build/
+*.o
+*.d
+*.swp
+*.out
