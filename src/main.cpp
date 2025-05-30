@@ -1,5 +1,6 @@
 #include "bank_account.h"
 #include "main.h"
+#include "auth.hpp"
 
     void welcome() {
         cout << "\n============================================================\n";
@@ -16,7 +17,8 @@
         while(true) {
             cout << "Choices.\n";
             cout << "1). Login\n";
-            cout << "2). Explore the features of the app\n";
+            cout << "2). Register new user.\n";
+            cout << "3). Explore the features of the app\n";
             cout << "Your choice: ";
             cin >> choice;
 
@@ -33,9 +35,13 @@
                 cout << "loging in now." << endl;
                 return;
             case 2:
-                cout << "we are going for app tour." << endl;
+                cout << "Register new user." << endl;
+                registerUser();
                 return;
             case 3:
+                cout << "we are going for app tour." << endl;
+                return;
+            case 4:
                 cout << "Exiting the app. Goodbye!\n";
                 return;
             default:
@@ -49,7 +55,7 @@
         cout << "more options here";
     }
 
-    void logIn() {
+    void registerUser() {
         std::string first_name, last_name, username, email, password;
 
         cout << "Enter your first name: ";
@@ -57,6 +63,22 @@
 
         cout << "Enter your last name: ";
         cin >> last_name;
+
+        cout << "Enter your username: ";
+        cin >> username;
+
+        cout << "Enter your email: ";
+        cin >> email;
+
+        cout << "Enter your password: ";
+        cin >> password;
+
+        try {
+            Auth::registerUser(first_name, last_name, username, email, password);
+            std::cout << "Users created successfully.\n";
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << "\n";
+        }
     }
 
 int main() {

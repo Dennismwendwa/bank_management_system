@@ -28,7 +28,7 @@ all: $(TARGET)
 # Link object files to create the binary
 $(TARGET): $(OBJS)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(OBJS) -o $@
+	$(CXX) $(OBJS) -o $@ -lbcrypt
 	@echo "##Build complete: $@"
 
 # Compile each .cpp to .o

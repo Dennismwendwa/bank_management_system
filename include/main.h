@@ -8,5 +8,6 @@ using namespace std;
 void getChoice();
 void welcome();
 void selectOptions();
+void registerUser();
 
 #endif
