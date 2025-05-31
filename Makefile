@@ -29,7 +29,7 @@ all: $(TARGET)
 # -lbcrypt
 $(TARGET): $(OBJS)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(OBJS) -o $@# -lpqxx -lpq
+	$(CXX) $(OBJS) -o $@ -lpqxx -lpq
 	@echo "##Build complete: $@"
 
 # Compile each .cpp to .o

@@ -12,16 +12,17 @@ class User {
     public:
         static User createUser(std::string fn, std::string ln, std::string u,
                            std::string em, std::string pw);
+        std::string getFirstName() const;
+        std::string getLastName() const;
+        std::string getUsername() const;
+        std::string getEmail() const;
+        std::string getPassword() const;    
+
         void setFirstName(std::string new_first_name);
-        std::string getFirstName();
         void setLastName(std::string new_last_name);
-        std::string getLastName();
         void setUsername(std::string new_username);
-        std::string getUsername();
         void setEmail(std::string new_email);
-        std::string getEmail();
         void setPassword(std::string new_password);
-        std::string getPassword() const;
 
     private:
         User(std::string fn, std::string ln, std::string u, std::string em, std::string pw);
