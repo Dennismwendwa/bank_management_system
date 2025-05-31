@@ -1,5 +1,5 @@
 #include "auth.hpp"
-#include "bcrypt/BCrypt.hpp"
+//#include "bcrypt/BCrypt.hpp"
 
 Auth::Auth(std::shared_ptr<IStorage> storage) : storage(std::move(storage)) {}
 
@@ -24,7 +24,7 @@ bool Auth::registerUser(
             return false;
         }
 
-        std::string hashedPassword = BCrypt::generateHash(password);
+        std::string hashedPassword = password; // BCrypt::generateHash(password);
         User user = User::createUser(firstName, lastName, username, email, hashedPassword);
 
         return storage->saveUser(user);
@@ -38,5 +38,6 @@ bool Auth::login(const std::string& username, const std::string& password) {
     }
 
     const User& user = userOpt.value();
-    return BCrypt::validatePassword(password, user.getPassword());
+    return password == user.getPassword();
+    //return BCrypt::validatePassword(password, user.getPassword());
 }

@@ -1,6 +1,7 @@
 #include "bank_account.h"
 #include "main.h"
 #include "auth.hpp"
+#include "storage_factory.hpp"
 
     void welcome() {
         cout << "\n============================================================\n";
@@ -74,7 +75,9 @@
         cin >> password;
 
         try {
-            Auth::registerUser(first_name, last_name, username, email, password);
+            auto storage = createStorage();
+            Auth auth(storage);
+            auth.registerUser(first_name, last_name, username, email, password);
             std::cout << "Users created successfully.\n";
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << "\n";
@@ -83,7 +86,10 @@
 
 int main() {
 
+    auto storage = createStorage();
+    ensureUserTableExists(storage);
     welcome();
+
 
     /** 
  *  SavingAccount* acc = nullptr;

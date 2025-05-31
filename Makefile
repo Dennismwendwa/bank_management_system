@@ -26,9 +26,10 @@ DEPS := $(OBJS:.o=.d)
 all: $(TARGET)
 
 # Link object files to create the binary
+# -lbcrypt
 $(TARGET): $(OBJS)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(OBJS) -o $@ -lbcrypt
+	$(CXX) $(OBJS) -o $@# -lpqxx -lpq
 	@echo "##Build complete: $@"
 
 # Compile each .cpp to .o

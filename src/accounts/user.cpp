@@ -1,5 +1,5 @@
 #include "user.h"
-#include "bcrypt/BCrypt.hpp"
+//#include "bcrypt/BCrypt.hpp"
 
 namespace fs = std::filesystem;
 const std::string USER_FILE = "users.csv";
@@ -15,7 +15,10 @@ void User::setUsername(std::string new_username) { username = new_username; }
 std::string User::getUsername() { return username; }
 void User::setEmail(std::string new_email) { email = new_email; }
 std::string User::getEmail() { return email; }
-void User::setPassword(std::string new_password) {password = BCrypt::generateHash(new_password); }
+void User::setPassword(std::string new_password) {
+    //password = BCrypt::generateHash(new_password); 
+    password = new_password;
+}
 std::string User::getPassword() const {return password; }
 
 User User::createUser(std::string fn, std::string ln,
@@ -70,7 +73,8 @@ void User::saveUserToFile(const User& user) {
         << user.last_name << ","
         << user.username << ","
         << user.email << ","
-        << BCrypt::generateHash(user.password) << "\n";
+        << user.password << "\n";
+        //<< BCrypt::generateHash(user.password) << "\n";
 }
 
 /**
