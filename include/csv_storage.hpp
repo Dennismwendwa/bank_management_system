@@ -22,6 +22,7 @@ class CSVStorage : public IStorage {
         std::mutex fileMutex;
 
         std::vector<User> loadAllUsers();
+        std::vector<User> loadUsersFromFileUnlocked();
         void appendUserToFile(const User& user);
 };
 

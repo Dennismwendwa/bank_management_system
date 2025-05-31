@@ -25,7 +25,8 @@ void User::setPassword(std::string new_password) {
 User User::createUser(std::string fn, std::string ln,
                              std::string u, std::string em, std::string pw) {
     User user(fn, ln, u, em, pw);
-    saveUserToFile(user); // to move this to storage
+    //saveUserToFile(user); // to move this to storage
+    cout << "Inside createUser() from User class.\n";
     return user;
 }
 
@@ -76,6 +77,19 @@ void User::saveUserToFile(const User& user) {
         << user.email << ","
         << user.password << "\n";
         //<< BCrypt::generateHash(user.password) << "\n";
+}
+
+User User::fromCSV(const std::string& csvLine) {
+        std::stringstream ss(csvLine);
+        std::string firstName, lastName, username, email, hashedPassword;
+
+        std::getline(ss, firstName, ',');
+        std::getline(ss, lastName, ',');
+        std::getline(ss, username, ',');
+        std::getline(ss, email, ',');
+        std::getline(ss, hashedPassword, ',');
+
+        return User(firstName, lastName, username, email, hashedPassword);
 }
 
 /**

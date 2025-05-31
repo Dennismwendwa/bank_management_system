@@ -23,6 +23,7 @@ class User {
         void setUsername(std::string new_username);
         void setEmail(std::string new_email);
         void setPassword(std::string new_password);
+        static User fromCSV(const std::string& csvLine);
 
     private:
         User(std::string fn, std::string ln, std::string u, std::string em, std::string pw);

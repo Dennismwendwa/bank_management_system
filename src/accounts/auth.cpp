@@ -9,6 +9,7 @@ bool Auth::registerUser(
     const std::string& username,
     const std::string& email,
     const std::string& password) {
+        cout << "\nStart\n";
         if (password.length() < 9) {
             std::cerr << "Password too short." << std::endl;
             return false;
@@ -23,10 +24,10 @@ bool Auth::registerUser(
             std::cerr << "Email taken." << std::endl;
             return false;
         }
-
+        cout << "Checks are done, creating user now\n";
         std::string hashedPassword = password; // BCrypt::generateHash(password);
         User user = User::createUser(firstName, lastName, username, email, hashedPassword);
-
+        cout << "Caalling storage now.\n";
         return storage->saveUser(user);
     }
 

@@ -76,6 +76,7 @@
 
         try {
             auto storage = createStorage();
+            cout << "\nStorage:: " << storage << endl;
             Auth auth(storage);
             auth.registerUser(first_name, last_name, username, email, password);
             std::cout << "Users created successfully.\n";
@@ -86,7 +87,6 @@
 
 int main() {
 
-    auto storage = createStorage();
     welcome();
 
     return 0;
