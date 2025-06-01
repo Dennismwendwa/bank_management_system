@@ -30,7 +30,7 @@ A secure, modular, and extensible **Bank Management System** developed in modern
 
 ## 📂 Project Structure
 
-```bash
+bash
 .
 ├── include/        # Header files (Auth, User, IStorage, etc.)
 ├── src/            # Source files
@@ -89,7 +89,7 @@ Choose password: ********
 
 ### 🔨 Build the Project
 
-```bash
+bash
 make
 
 ▶️ Run the App
