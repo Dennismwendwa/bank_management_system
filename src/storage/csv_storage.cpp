@@ -27,6 +27,7 @@ bool CSVStorage::isEmailTaken(const std::string& email) {
 std::optional<User> CSVStorage::findUserByUsername(const std::string& username) {
     auto users = loadAllUsers();
     for (const auto& u : users) {
+        cout << "\nuser: " << u.getUsername() << endl;
         if (u.getUsername() == username) {
             return u;
         }
@@ -43,8 +44,9 @@ std::vector<User> CSVStorage::loadAllUsers() {
 
     while (std::getline(file, line)) {
         std::stringstream ss(line);
-        std::string firstName, lastName, username, email, password;
+        std::string idStr, firstName, lastName, username, email, password;
 
+        std::getline(ss, idStr, ',');
         std::getline(ss, firstName, ',');
         std::getline(ss, lastName, ',');
         std::getline(ss, username, ',');
@@ -87,12 +89,36 @@ void CSVStorage::appendUserToFile(const User& user) {
     std::ofstream file(filename, std::ios::app);
 
     if (!fileExists) {
-        file << "FirstName,LastName,Username,Email,Password\n";
+        file << "UserId,FirstName,LastName,Username,Email,Password\n";
     }
+    int user_id = generateUserIdFromCSV(filename);
 
-    file << user.getFirstName() << ","
+    file << user_id << ","
+         << user.getFirstName() << ","
          << user.getLastName() << ","
          << user.getUsername() << ","
          << user.getEmail() << ","
          << user.getPassword() << "\n";
+}
+
+int CSVStorage::generateUserIdFromCSV(const std::string& filename) {
+    std::ifstream file(filename);
+    std::string line;
+    int maxId{};
+
+    std::getline(file, line);
+
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string idStr;
+        std::getline(ss, idStr, ',');
+        try {
+            int id = std::stoi(idStr);
+            maxId =  std::max(maxId, id);
+        } catch (...) {
+            continue;
+        }
+    }
+
+    return maxId + 1;
 }

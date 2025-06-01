@@ -3,7 +3,7 @@
 #include "storage_factory.hpp"
 
     void selectOptions() {
-        cout << "more options here";
+        
     }
 
     void registerUser(Auth& auth) {
@@ -41,6 +41,7 @@
 
         std::optional<User> user = auth.login(username, password);
         if (user) {
+            current_user = std::make_shared<User>(*user);
             std::cout << "\nHello, " << user->getFirstName() << "!\n\n";
         } else {
             std::cout << "Login failed.\n";
@@ -103,7 +104,6 @@ int main() {
         }
     } while(flag);
 
-    cout << "Bank services" << endl;
     cout << "\n============================================================\n";
     cout << "           🌟 Our Banking Services 🌟\n";
     cout << "============================================================\n\n";
@@ -131,9 +131,24 @@ int main() {
 
         switch (my_choice)
         {
-        case 1:
-            /* code */
+        case 1: {
+            std::string names, id_number;
+            double amount;
+            cout << "Enter your names: ";
+            cin >> names;
+            cout << "Enter your ID number/ Passport number: ";
+            cin >> id_number;
+            cout << "Enter the amount to deposit: ";
+            cin >> amount;
+
+            cout << "\n\n\n";
+            cout << current_user->getUserId() << endl;
+            SavingAccount newAcc(current_user->getUserId(), names, "1234567890", amount, 4.5);
+            cout << "\n\n";
+            newAcc.showAccountDetails();
+            cout << "\n\n";
             break;
+        }
         case 2:
             break;
         case 3:

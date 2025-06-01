@@ -6,6 +6,9 @@ const std::string USER_FILE = "users.csv";
 
 User::User(std::string fn, std::string ln, std::string u, std::string em, std::string pw) : first_name(fn),
     last_name(ln), username(u), email(em), password(pw) {}
+User::User(int u_id, std::string fn, std::string ln, std::string u, std::string em, std::string pw
+    ) : user_id(u_id), first_name(fn),
+    last_name(ln), username(u), email(em), password(pw) {}
 
 std::string User::getFirstName() const { return first_name; }
 std::string User::getLastName() const { return last_name; }
@@ -13,6 +16,7 @@ std::string User::getUsername() const { return username; }
 std::string User::getEmail() const { return email; }
 std::string User::getPassword() const { return password; }
 bool User::getLoginStatus() const {return login_status; }
+int User::getUserId() const {return user_id; }
 
 void User::setFirstName(std::string new_first_name) { first_name = new_first_name; }
 void User::setLastName(std::string new_last_name) { last_name = new_last_name; }

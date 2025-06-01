@@ -6,6 +6,8 @@
 #include <vector>
 #include <optional>
 #include <mutex>
+#include <algorithm>
+#include <string>
 #include "storage.hpp"
 
 class CSVStorage : public IStorage {
@@ -24,6 +26,7 @@ class CSVStorage : public IStorage {
         std::vector<User> loadAllUsers();
         std::vector<User> loadUsersFromFileUnlocked();
         void appendUserToFile(const User& user);
+        int generateUserIdFromCSV(const std::string& filename);
 };
 
 #endif

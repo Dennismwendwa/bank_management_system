@@ -13,21 +13,26 @@ using namespace std;
 
 class BankAccount {
     public:
-        BankAccount(std::string ah, std::string an);
-        BankAccount(std::string ah, std::string an, double b);
+        BankAccount(int user_id, std::string ah, std::string an);
+        BankAccount(int user_id, std::string ah, std::string an, double b);
+        BankAccount(int acc_id, int user_id, std::string ah, std::string an, double b);
 
         void setAccountNumber(std::string new_number);
         std::string getAccountNumber();
-
         void setAccountHolder(std::string new_holder);
         std::string getAccountHolder();
-
         void setBalance (double new_balance);
         double getBalance();
 
         void deposit(double deposit);
         void withdraw(double amount);
         void transfer(BankAccount& to, double amount);
+        int getUserId() const;
+        int getAccountId() const;
+
+    protected:
+        int account_id;
+        int user_id;
 
     private:
         std::string account_holder;
@@ -39,7 +44,8 @@ class BankAccount {
 
 class SavingAccount : public BankAccount {
     public:
-        SavingAccount(std::string ah, std::string an, double b, double rate);
+        SavingAccount(int user_id, std::string ah, std::string an, double b, double rate);
+    //SavingAccount newAcc(10, "Dennis Mwendwa", "1234567890", 17000.0, 4.5)
 
 	void setCreatedOn(std::string new_date);
     std::string getCurrentDate();
@@ -57,6 +63,9 @@ class SavingAccount : public BankAccount {
     void showAccountDetails();
     void withdraw(double amount);
     void transfer(SavingAccount& to, double amount);
+    std::string CreateAccount(int user_id,
+                              std::string account_holder,
+                              double amount, double rate);
 
     private:
         std::string created_on;

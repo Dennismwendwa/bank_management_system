@@ -2,7 +2,10 @@
 #define MAIN_H
 
 #include <iostream>
+#include <memory>
 #include "auth.hpp"
+
+inline std::shared_ptr<User> current_user = nullptr;
 
 using namespace std;
 

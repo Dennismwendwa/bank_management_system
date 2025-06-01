@@ -1,22 +1,24 @@
 #include "bank_account.h"
+#include "user.h"
+#include "utils.hpp"
 
-BankAccount::BankAccount(std::string ah, std::string an) {
-    account_holder = ah;
-    account_number = an;
-    balance = 0;
+BankAccount::BankAccount(int user_id, std::string ah, std::string an) {
+    user_id = user_id, account_holder = ah, account_number = an, balance = 0;
 }
 
-BankAccount::BankAccount(std::string ah, std::string an, double b) {
+BankAccount::BankAccount(int ud, std::string ah, std::string an, double b) {
     const double MIN_BALANCE = 10000.0;
 
     if (b < MIN_BALANCE) {
         throw std::invalid_argument("Initial balance must be at least Ksh 10,000.");
     }
-
+    user_id = ud,
     account_holder = ah;
     account_number = an;
     balance = b;
 }
+BankAccount::BankAccount(int acc_id, int user_id, std::string ah, std::string an, double b)
+    : account_id(acc_id), user_id(user_id), account_holder(ah), account_number(an), balance(b) {}
 
 void BankAccount::setAccountNumber(std::string new_number) {
     account_number = new_number;
@@ -41,6 +43,9 @@ void BankAccount::setBalance (double new_balance) {
 double BankAccount::getBalance() {
     return balance;
 }
+
+int BankAccount::getAccountId() const {return account_id; }
+int BankAccount::getUserId() const {return user_id; }
 
 void BankAccount::deposit(double deposit) {
     balance += deposit;
@@ -79,8 +84,8 @@ void BankAccount::transfer(BankAccount& to, double amount) {
     }
 }
 
-SavingAccount::SavingAccount(std::string ah, std::string an, double b, double rate
-        ) : BankAccount(ah, an, b), created_on(getCurrentDate()), interest_rate(rate) {
+SavingAccount::SavingAccount(int user_id, std::string ah, std::string an, double b, double rate
+        ) : BankAccount(user_id, ah, an, b), created_on(getCurrentDate()), interest_rate(rate) {
         minimum_balance = 10000;
         monthly_withdrawals = 0;
         max_withdrawals = 3;
@@ -158,6 +163,7 @@ void SavingAccount::showAccountDetails() {
     cout << "\n------------------ Holder Details -------------------\n";
     cout << left << setw(25) << "Account Holder:" << getAccountHolder() << endl;
     cout << left << setw(25) << "Account Number:" << getAccountNumber() << endl;
+    cout << left << setw(25) << "User table-id: " << getUserId() << endl;
 
     cout << "\n------------------ Financial Info -------------------\n";
     cout << left << setw(25) << "Account Balance: Ksh" << fixed << setprecision(2) << getBalance() << endl;
@@ -197,4 +203,13 @@ void SavingAccount::transfer(SavingAccount& to, double amount) {
         cout << "Balance: " << getBalance() << endl;
         cout << "Avaialable Balance: " << getBalance() - 100 << endl;
     }
+}
+
+std::string SavingAccount::CreateAccount(int user_id,
+                                  std::string account_holder,
+                                  double amount, double rate) {
+    //int user_id = user.getUserId();
+    SavingAccount newAcc(user_id, account_holder, generateAccountNumber(user_id), amount, rate);
+
+    return newAcc.getAccountNumber();
 }
