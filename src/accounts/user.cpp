@@ -12,6 +12,7 @@ std::string User::getLastName() const { return last_name; }
 std::string User::getUsername() const { return username; }
 std::string User::getEmail() const { return email; }
 std::string User::getPassword() const { return password; }
+bool User::getLoginStatus() const {return login_status; }
 
 void User::setFirstName(std::string new_first_name) { first_name = new_first_name; }
 void User::setLastName(std::string new_last_name) { last_name = new_last_name; }
@@ -21,12 +22,13 @@ void User::setPassword(std::string new_password) {
     //password = BCrypt::generateHash(new_password); 
     password = new_password;
 }
+void User::setLoginStatus(bool new_status) {
+    login_status = new_status;
+}
 
 User User::createUser(std::string fn, std::string ln,
                              std::string u, std::string em, std::string pw) {
     User user(fn, ln, u, em, pw);
-    //saveUserToFile(user); // to move this to storage
-    cout << "Inside createUser() from User class.\n";
     return user;
 }
 

@@ -15,7 +15,8 @@ class Auth {
                         const std::string& username,
                         const std::string& email,
                         const std::string& password);
-        bool login(const std::string& username, const std::string& password);
+        std::optional<User> login(const std::string& username, const std::string& password);
+        //bool updateLoginStatus();
 
     private:
         std::shared_ptr<IStorage> storage;

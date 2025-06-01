@@ -9,36 +9,41 @@ bool Auth::registerUser(
     const std::string& username,
     const std::string& email,
     const std::string& password) {
-        cout << "\nStart\n";
         if (password.length() < 9) {
             std::cerr << "Password too short." << std::endl;
+            throw std::runtime_error("Password must be at least 9 characters long.");
             return false;
         }
 
         if (storage->isUsernameTaken(username)) {
-            std::cerr << "Username already in use." << std::endl;
+            throw std::runtime_error("Username '" + username + "' is already taken.");
             return false;
         }
 
         if (storage->isEmailTaken(email)) {
-            std::cerr << "Email taken." << std::endl;
+            throw std::runtime_error("Email '" + email + "' is already in use.");
             return false;
         }
-        cout << "Checks are done, creating user now\n";
+
         std::string hashedPassword = password; // BCrypt::generateHash(password);
         User user = User::createUser(firstName, lastName, username, email, hashedPassword);
-        cout << "Caalling storage now.\n";
+
         return storage->saveUser(user);
     }
 
-bool Auth::login(const std::string& username, const std::string& password) {
+std::optional<User> Auth::login(const std::string& username, const std::string& password) {
     auto userOpt = storage->findUserByUsername(username);
     if (!userOpt.has_value()) {
         std::cerr << "User not found." << std::endl;
-        return false;
+        return std::nullopt;
     }
 
-    const User& user = userOpt.value();
-    return password == user.getPassword();
+    User& user = userOpt.value();
+    if (password == user.getPassword()) {
+        user.setLoginStatus(true);
+        return user;
+    } else {
+        return std::nullopt;
+    }
     //return BCrypt::validatePassword(password, user.getPassword());
 }

@@ -16,13 +16,15 @@ class User {
         std::string getLastName() const;
         std::string getUsername() const;
         std::string getEmail() const;
-        std::string getPassword() const;    
+        std::string getPassword() const;
+        bool getLoginStatus() const;
 
         void setFirstName(std::string new_first_name);
         void setLastName(std::string new_last_name);
         void setUsername(std::string new_username);
         void setEmail(std::string new_email);
         void setPassword(std::string new_password);
+        void setLoginStatus(bool new_status);
         static User fromCSV(const std::string& csvLine);
 
     private:
@@ -32,6 +34,7 @@ class User {
         std::string username;
         std::string email;
         std::string password;
+        bool login_status{false};
 
         static bool isUsernameTaken(const std::string& username);
         static bool isEmailTaken(const std::string& email);

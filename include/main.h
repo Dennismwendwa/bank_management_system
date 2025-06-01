@@ -2,12 +2,11 @@
 #define MAIN_H
 
 #include <iostream>
+#include "auth.hpp"
 
 using namespace std;
 
-void getChoice();
-void welcome();
 void selectOptions();
-void registerUser();
+void registerUser(Auth& auth);
 
 #endif
