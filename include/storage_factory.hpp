@@ -4,6 +4,7 @@
 #include <memory>
 #include "csv_storage.hpp"
 #include "db_storage.hpp"
+#include "file_storage.hpp"
 
 
 inline std::shared_ptr<IStorage> createStorage() {
@@ -13,7 +14,7 @@ inline std::shared_ptr<IStorage> createStorage() {
         std::cout << "Connected to database.\n";
         return db;
     } else {
-        return std::make_shared<CSVStorage>("users.csv");
+        return std::make_shared<FileStorage>();
     }
 }
 

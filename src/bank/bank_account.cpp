@@ -2,11 +2,11 @@
 #include "user.h"
 #include "utils.hpp"
 
-BankAccount::BankAccount(int user_id, std::string ah, std::string an) {
-    user_id = user_id, account_holder = ah, account_number = an, balance = 0;
+BankAccount::BankAccount(int user_id, std::string ah, std::string an, std::string ID) {
+    user_id = user_id, account_holder = ah, account_number = an, balance = 0, nationl_id = ID;
 }
 
-BankAccount::BankAccount(int ud, std::string ah, std::string an, double b) {
+BankAccount::BankAccount(int ud, std::string ah, std::string an, double b, std::string ID) {
     const double MIN_BALANCE = 10000.0;
 
     if (b < MIN_BALANCE) {
@@ -16,15 +16,16 @@ BankAccount::BankAccount(int ud, std::string ah, std::string an, double b) {
     account_holder = ah;
     account_number = an;
     balance = b;
+    nationl_id = ID;
 }
-BankAccount::BankAccount(int acc_id, int user_id, std::string ah, std::string an, double b)
-    : account_id(acc_id), user_id(user_id), account_holder(ah), account_number(an), balance(b) {}
+BankAccount::BankAccount(int acc_id, int user_id, std::string ah, std::string an, double b, std::string ID)
+    : account_id(acc_id), user_id(user_id), account_holder(ah), account_number(an), balance(b), nationl_id(ID) {}
 
 void BankAccount::setAccountNumber(std::string new_number) {
     account_number = new_number;
 }
 
-std::string BankAccount::getAccountNumber() {
+std::string BankAccount::getAccountNumber() const {
     return account_number;
 }
 
@@ -32,7 +33,7 @@ void BankAccount::setAccountHolder(std::string new_holder) {
     account_holder = new_holder;
 }
 
-std::string BankAccount::getAccountHolder() {
+std::string BankAccount::getAccountHolder() const {
     return account_holder;
 }
 
@@ -40,8 +41,16 @@ void BankAccount::setBalance (double new_balance) {
     balance = new_balance;
 }
 
-double BankAccount::getBalance() {
+void BankAccount::setNationalId(std::string new_id) {
+    nationl_id = new_id;
+}
+
+double BankAccount::getBalance() const {
     return balance;
+}
+
+std::string BankAccount::getNationalId() const {
+    return nationl_id;
 }
 
 int BankAccount::getAccountId() const {return account_id; }
@@ -84,14 +93,26 @@ void BankAccount::transfer(BankAccount& to, double amount) {
     }
 }
 
-SavingAccount::SavingAccount(int user_id, std::string ah, std::string an, double b, double rate
-        ) : BankAccount(user_id, ah, an, b), created_on(getCurrentDate()), interest_rate(rate) {
+SavingAccount::SavingAccount(int user_id, std::string ah, std::string an, double b, std::string ni, double rate
+        ) : BankAccount(user_id, ah, an, b, ni), created_on(getCurrentDate()), interest_rate(rate) {
         minimum_balance = 10000;
         monthly_withdrawals = 0;
         max_withdrawals = 3;
         account_type = "Basic";
     }
-std::string SavingAccount::getCurrentDate() {
+SavingAccount::SavingAccount(int account_id, int user_id, std::string account_holder,
+                             std::string account_number, double balance, std::string ni, double interest_rate,
+                             double minimum_balance, int monthly_withdrawals, int max_withdrawals,
+                             std::string account_type, std::string created_on
+                            ) : BankAccount(account_id, user_id, account_holder, account_number, balance, ni
+                            ), created_on(created_on),
+                            interest_rate(interest_rate),
+                            minimum_balance(minimum_balance),
+                            monthly_withdrawals(monthly_withdrawals),
+                            max_withdrawals(max_withdrawals),
+                            account_type(account_type) {}
+
+std::string SavingAccount::getCurrentDate() const {
     std::time_t now = std::time(nullptr);
     std::tm* local_time = std::localtime(&now);
     std::ostringstream oss;
@@ -102,7 +123,7 @@ std::string SavingAccount::getCurrentDate() {
 void SavingAccount::setCreatedOn(std::string new_date) {
     created_on = new_date;
 }
-std::string SavingAccount::getCreatedOn() {
+std::string SavingAccount::getCreatedOn() const {
     return created_on;
 }
 
@@ -110,7 +131,7 @@ void SavingAccount::setInterestRate(double new_interest_rate) {
     interest_rate = new_interest_rate;                                                  
 }
 
-double SavingAccount::getInterestRate() {
+double SavingAccount::getInterestRate() const {
     return interest_rate;
 }
 
@@ -118,7 +139,7 @@ void SavingAccount::setMinimumBalance(double new_balance) {
     minimum_balance = new_balance;
 }
 
-double SavingAccount::getMinimumBalance() {
+double SavingAccount::getMinimumBalance () const {
     return minimum_balance;
 }
 
@@ -132,7 +153,7 @@ void SavingAccount::addMonthlyWithdrawals(int new_number) {
     }
 }
 
-int SavingAccount::getMonthlyWithdrawals() {
+int SavingAccount::getMonthlyWithdrawals() const {
     return monthly_withdrawals;
 }
 
@@ -140,7 +161,7 @@ void SavingAccount::setMaxWithdrawals(int new_max) {
     max_withdrawals = new_max;
 }
 
-int SavingAccount::getMaxWithdrawals() {
+int SavingAccount::getMaxWithdrawals() const {
     return max_withdrawals;
 }
 
@@ -148,7 +169,7 @@ void SavingAccount::setAccountType(std::string new_type) {
     account_type = new_type;
 }
 
-std::string SavingAccount::getAccountType() {
+std::string SavingAccount::getAccountType() const {
     return account_type;
 }
 
@@ -205,11 +226,11 @@ void SavingAccount::transfer(SavingAccount& to, double amount) {
     }
 }
 
-std::string SavingAccount::CreateAccount(int user_id,
+SavingAccount SavingAccount::CreateAccount(int user_id,
                                   std::string account_holder,
-                                  double amount, double rate) {
-    //int user_id = user.getUserId();
-    SavingAccount newAcc(user_id, account_holder, generateAccountNumber(user_id), amount, rate);
-
-    return newAcc.getAccountNumber();
+                                  double amount, std::string national_id, double rate) {
+    
+    SavingAccount newAcc(user_id, account_holder, generateAccountNumber(user_id), amount, national_id, rate);
+    
+    return newAcc;
 }

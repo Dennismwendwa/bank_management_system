@@ -1,9 +1,13 @@
 #include <iostream>
 #include "csv_storage.hpp"
+namespace fs = std::filesystem;
 
-CSVStorage::CSVStorage(const std::string& filename) : filename(filename) {}
+CSVStorage::CSVStorage(const std::string& filename) : filename(filename) {
+    //std::cout << "🔍 CSVStorage initialized with filename: " << filename << std::endl;
+}
 
 bool CSVStorage::saveUser(const User& user) {
+    cout << "\n\nInside CSVStorage-saveUser\n\n";
     appendUserToFile(user);
     return true;
 }
@@ -42,6 +46,8 @@ std::vector<User> CSVStorage::loadAllUsers() {
     std::ifstream file(filename);
     std::string line;
 
+    std::getline(file, line);
+
     while (std::getline(file, line)) {
         std::stringstream ss(line);
         std::string idStr, firstName, lastName, username, email, password;
@@ -53,8 +59,9 @@ std::vector<User> CSVStorage::loadAllUsers() {
         std::getline(ss, email, ',');
         std::getline(ss, password, ',');
 
+        int user_id = std::stoi(idStr);
         if (!username.empty()) {
-            users.emplace_back(User::createUser(firstName, lastName, username, email, password));
+            users.emplace_back(User::createUser(user_id, firstName, lastName, username, email, password));
         }
     }
     return users;
@@ -82,6 +89,8 @@ std::vector<User> CSVStorage::loadUsersFromFileUnlocked() {
 }
 
 void CSVStorage::appendUserToFile(const User& user) {
+    fs::create_directories("files");
+
     std::ifstream infile(filename);
     bool fileExists = infile.good();
     infile.close();

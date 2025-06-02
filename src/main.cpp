@@ -1,6 +1,7 @@
 #include "bank_account.h"
 #include "main.h"
 #include "storage_factory.hpp"
+#include "bank_ops.hpp"
 
     void selectOptions() {
         
@@ -42,7 +43,6 @@
         std::optional<User> user = auth.login(username, password);
         if (user) {
             current_user = std::make_shared<User>(*user);
-            std::cout << "\nHello, " << user->getFirstName() << "!\n\n";
         } else {
             std::cout << "Login failed.\n";
         }
@@ -53,6 +53,7 @@ int main() {
 
     auto storage = createStorage();
     Auth auth(storage);
+    Bank bank(storage);
 
     int choice{};
     bool flag{true};
@@ -141,12 +142,16 @@ int main() {
             cout << "Enter the amount to deposit: ";
             cin >> amount;
 
-            cout << "\n\n\n";
-            cout << current_user->getUserId() << endl;
-            SavingAccount newAcc(current_user->getUserId(), names, "1234567890", amount, 4.5);
-            cout << "\n\n";
-            newAcc.showAccountDetails();
-            cout << "\n\n";
+            //SavingAccount newAcc(current_user->getUserId(), names, "1234567890", amount, 4.5);
+            double rate = 4.5;
+            SavingAccount acc_c = SavingAccount::CreateAccount(current_user->getUserId(), names, amount, id_number, rate);
+            try {
+                bank.openAccount(current_user->getUserId(), names, amount, id_number, rate);
+            } catch (const std::exception& e) {
+                std::cerr << "Error: " << e.what() << "\n";
+            }
+            
+            cout << "\n\n" << acc_c.getAccountNumber() << "\n\n";
             break;
         }
         case 2:

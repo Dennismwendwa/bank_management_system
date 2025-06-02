@@ -27,7 +27,6 @@ bool Auth::registerUser(
 
         std::string hashedPassword = password; // BCrypt::generateHash(password);
         User user = User::createUser(firstName, lastName, username, email, hashedPassword);
-
         return storage->saveUser(user);
     }
 

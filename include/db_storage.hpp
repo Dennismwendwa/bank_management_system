@@ -13,10 +13,15 @@ public:
     bool connect();
     bool isConnected() const;
 
+    // User methods
     bool saveUser(const User& user) override;
     bool isUsernameTaken(const std::string& username) override;
     bool isEmailTaken(const std::string& email) override;
     std::optional<User> findUserByUsername(const std::string& username) override;
+
+    // Account methods
+    bool saveAccount(const SavingAccount& account) override; //insert into accounts table
+    std::optional<SavingAccount> findAccountById(int id) override; // select from accounts
 
     pqxx::connection* getConnection(); // For use in table creation
 

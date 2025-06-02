@@ -12,6 +12,8 @@ class User {
     public:
         static User createUser(std::string fn, std::string ln, std::string u,
                            std::string em, std::string pw);
+        static User createUser(int, std::string fn, std::string ln, std::string u,
+                           std::string em, std::string pw);
         std::string getFirstName() const;
         std::string getLastName() const;
         std::string getUsername() const;
@@ -26,6 +28,7 @@ class User {
         void setEmail(std::string new_email);
         void setPassword(std::string new_password);
         void setLoginStatus(bool new_status);
+        void setUserId(int new_user_id);
 
         static User fromCSV(const std::string& csvLine);
     

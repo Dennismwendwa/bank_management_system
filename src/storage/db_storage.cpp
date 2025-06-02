@@ -100,3 +100,15 @@ std::optional<User> DatabaseStorage::findUserByUsername(const std::string& usern
         return std::nullopt;
     }
 }
+
+bool DatabaseStorage::saveAccount(const SavingAccount& account) {
+    // For later
+    std::cout << "[DB] Saving account (stub)\n";
+    return true;
+}
+
+std::optional<SavingAccount> DatabaseStorage::findAccountById(int id) {
+    // for later
+    std::cout << "[DB] Finding account by ID (stub)\n";
+    return std::nullopt;
+}

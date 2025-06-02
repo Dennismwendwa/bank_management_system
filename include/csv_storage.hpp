@@ -10,14 +10,14 @@
 #include <string>
 #include "storage.hpp"
 
-class CSVStorage : public IStorage {
+class CSVStorage {
     public:
         explicit CSVStorage(const std::string& filename);
 
-        bool saveUser(const User& user) override;
-        bool isUsernameTaken(const std::string& username) override;
-        bool isEmailTaken(const std::string& email) override;
-        std::optional<User> findUserByUsername(const std::string& username) override;
+        bool saveUser(const User& user);
+        bool isUsernameTaken(const std::string& username);
+        bool isEmailTaken(const std::string& email);
+        std::optional<User> findUserByUsername(const std::string& username);
 
     private:
         std::string filename;
@@ -28,5 +28,4 @@ class CSVStorage : public IStorage {
         void appendUserToFile(const User& user);
         int generateUserIdFromCSV(const std::string& filename);
 };
-
 #endif

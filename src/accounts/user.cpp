@@ -30,9 +30,19 @@ void User::setLoginStatus(bool new_status) {
     login_status = new_status;
 }
 
+void User::setUserId(int new_user_id) {
+    user_id = new_user_id;
+}
+
 User User::createUser(std::string fn, std::string ln,
                              std::string u, std::string em, std::string pw) {
     User user(fn, ln, u, em, pw);
+    return user;
+}
+
+User User::createUser(int id, std::string fn, std::string ln, std::string u,
+                        std::string em, std::string pw) {
+    User user(id, fn, ln, u, em, pw);
     return user;
 }
 
