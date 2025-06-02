@@ -1,0 +1,30 @@
+[
+    {
+        "account_holder": "dennis",
+        "account_id": 1,
+        "account_number": "SAV001783135",
+        "account_type": "Basic",
+        "balance": 44444.0,
+        "created_on": "2025-06-02",
+        "interest_rate": 4.5,
+        "max_withdrawals": 3,
+        "minimum_balance": 10000.0,
+        "monthly_withdrawals": 0,
+        "nationl_id": "9876543",
+        "user_id": 1
+    },
+    {
+        "account_holder": "dennis",
+        "account_id": 1,
+        "account_number": "SAV001320742",
+        "account_type": "Basic",
+        "balance": 88000.0,
+        "created_on": "2025-06-02",
+        "interest_rate": 4.5,
+        "max_withdrawals": 3,
+        "minimum_balance": 10000.0,
+        "monthly_withdrawals": 0,
+        "nationl_id": "900900",
+        "user_id": 1
+    }
+]
