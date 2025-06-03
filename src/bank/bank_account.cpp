@@ -52,6 +52,9 @@ double BankAccount::getBalance() const {
 std::string BankAccount::getNationalId() const {
     return nationl_id;
 }
+void BankAccount::setAccountId(int new_id) {
+    account_id = new_id;
+}
 
 int BankAccount::getAccountId() const {return account_id; }
 int BankAccount::getUserId() const {return user_id; }
@@ -93,7 +96,12 @@ void BankAccount::transfer(BankAccount& to, double amount) {
     }
 }
 
-SavingAccount::SavingAccount(int user_id, std::string ah, std::string an, double b, std::string ni, double rate
+SavingAccount::SavingAccount(int user_id,
+                             std::string ah,
+                             std::string an,
+                             double b,
+                             std::string ni,
+                             double rate
         ) : BankAccount(user_id, ah, an, b, ni), created_on(getCurrentDate()), interest_rate(rate) {
         minimum_balance = 10000;
         monthly_withdrawals = 0;

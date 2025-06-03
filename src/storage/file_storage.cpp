@@ -3,6 +3,10 @@
 FileStorage::FileStorage()
     : csvUsers("files/users.csv"), jsonAccounts("files/accounts.json") {}
 
+std::string FileStorage::getStorageType() const {
+    return "File";
+}
+
 // User methods
 bool FileStorage::saveUser(const User& user) {
     return csvUsers.saveUser(user);

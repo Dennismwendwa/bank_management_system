@@ -13,6 +13,8 @@ public:
     bool connect();
     bool isConnected() const;
 
+    std::string getStorageType() const override;
+
     // User methods
     bool saveUser(const User& user) override;
     bool isUsernameTaken(const std::string& username) override;

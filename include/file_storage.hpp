@@ -12,6 +12,8 @@ class FileStorage : public IStorage {
     public:
         FileStorage();
 
+        std::string getStorageType() const override;
+
         // User methods
         bool saveUser(const User& user) override;
         std::optional<User> findUserByUsername(const std::string& username) override;

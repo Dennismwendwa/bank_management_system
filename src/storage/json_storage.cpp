@@ -9,8 +9,14 @@ JSONStorage::JSONStorage(const std::string& filename) : filename(filename) {}
 bool JSONStorage::saveAccount(const SavingAccount& account) {
     std::lock_guard<std::mutex> lock(fileMutex);
 
+    SavingAccount modifiableAccount = account;
+
+    cout << "\nStorage save\n";
     auto accounts = loadAllAccounts();
-    accounts.push_back(account);
+    int next_id = getNextAccountID(accounts);
+    modifiableAccount.setAccountId(next_id);
+
+    accounts.push_back(modifiableAccount);
     writeAllAccounts(accounts);
     return true;
 }
@@ -77,4 +83,15 @@ void JSONStorage::writeAllAccounts(const std::vector<SavingAccount>& accounts) {
         });
     }
     outFile << j.dump(4);
+}
+
+int JSONStorage::getNextAccountID(const std::vector<SavingAccount>& accounts) {
+    //std::vector<SavingAccount> accounts = loadAllAccounts();
+    int max_id = 0;
+    for (const auto& acc : accounts) {
+        if (acc.getAccountId() > max_id) {
+            max_id = acc.getAccountId();
+        }
+    }
+    return max_id + 1;
 }

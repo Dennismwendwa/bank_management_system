@@ -8,6 +8,8 @@ class IStorage {
     public:
         virtual ~IStorage() = default;
 
+        virtual std::string getStorageType() const = 0;
+
         // User methods
         virtual bool saveUser(const User& user) = 0;
         virtual bool isUsernameTaken(const std::string& username) = 0;

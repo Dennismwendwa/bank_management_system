@@ -23,6 +23,7 @@ class BankAccount {
         std::string getAccountHolder() const;
         void setBalance (double new_balance);
         void setNationalId(std::string new_id);
+        void setAccountId(int new_id);
 
         void deposit(double deposit);
         void withdraw(double amount);

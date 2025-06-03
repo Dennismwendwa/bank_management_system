@@ -3,7 +3,7 @@
 namespace fs = std::filesystem;
 
 CSVStorage::CSVStorage(const std::string& filename) : filename(filename) {
-    //std::cout << "🔍 CSVStorage initialized with filename: " << filename << std::endl;
+    //std::cout << "CSVStorage initialized with filename: " << filename << std::endl;
 }
 
 bool CSVStorage::saveUser(const User& user) {
@@ -31,7 +31,6 @@ bool CSVStorage::isEmailTaken(const std::string& email) {
 std::optional<User> CSVStorage::findUserByUsername(const std::string& username) {
     auto users = loadAllUsers();
     for (const auto& u : users) {
-        cout << "\nuser: " << u.getUsername() << endl;
         if (u.getUsername() == username) {
             return u;
         }
@@ -98,7 +97,7 @@ void CSVStorage::appendUserToFile(const User& user) {
     std::ofstream file(filename, std::ios::app);
 
     if (!fileExists) {
-        file << "UserId,FirstName,LastName,Username,Email,Password\n";
+        file << "UserId,FirstName,LastName,Username,Email,Password_hash";
     }
     int user_id = generateUserIdFromCSV(filename);
 
@@ -131,3 +130,5 @@ int CSVStorage::generateUserIdFromCSV(const std::string& filename) {
 
     return maxId + 1;
 }
+
+

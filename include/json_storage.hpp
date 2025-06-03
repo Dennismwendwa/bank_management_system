@@ -19,6 +19,7 @@ private:
 
     std::vector<SavingAccount> loadAllAccounts();
     void writeAllAccounts(const std::vector<SavingAccount>& accounts);
+    int getNextAccountID(const std::vector<SavingAccount>& accounts);
 };
 
 #endif

@@ -5,9 +5,14 @@ else
     Q = @
 endif
 
-# compiler and flags
+# Compiler
 CXX := g++
-CXXFLAGS := -Wall -Wextra -std=c++17 -Iinclude -MMD -MP
+
+# Compiler flags
+CXXFLAGS := -std=c++17 -Iinclude
+CXXFLAGS += -Wall -Wextra -Wuninitialized -Wmaybe-uninitialized
+CXXFLAGS += -g -O0
+CXXFLAGS += -MMD -MP
 
 # folders
 SRC_DIR := src

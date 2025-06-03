@@ -7,7 +7,11 @@ Bank::Bank(std::shared_ptr<IStorage> storage) : storage(std::move(storage)) {
 
 bool Bank::openAccount(int userId, const std::string& holderName, double initialDeposit, std::string national_id, double interestRate) {
     SavingAccount account = SavingAccount::CreateAccount(userId, holderName, initialDeposit, national_id, interestRate);
-    cout << "id: " << account.getNationalId() << endl;
+    cout << "\n\nNational ID\nid: " << account.getNationalId() << endl;
+
+    if (storage->getStorageType() == "File") {
+        
+    }
     return storage->saveAccount(account);
 }
 

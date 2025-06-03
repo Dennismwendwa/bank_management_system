@@ -22,6 +22,10 @@ bool DatabaseStorage::isConnected() const {
     return connected;
 }
 
+std::string DatabaseStorage::getStorageType() const {
+    return "Database";
+}
+
 pqxx::connection* DatabaseStorage::getConnection() {
     return conn.get();
 }
@@ -103,12 +107,14 @@ std::optional<User> DatabaseStorage::findUserByUsername(const std::string& usern
 
 bool DatabaseStorage::saveAccount(const SavingAccount& account) {
     // For later
+    cout << account.getAccountId() << endl;
     std::cout << "[DB] Saving account (stub)\n";
     return true;
 }
 
 std::optional<SavingAccount> DatabaseStorage::findAccountById(int id) {
     // for later
+    cout << id << endl;
     std::cout << "[DB] Finding account by ID (stub)\n";
     return std::nullopt;
 }
