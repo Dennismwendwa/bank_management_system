@@ -84,4 +84,80 @@ class SavingAccount : public BankAccount {
 
         void addMonthlyWithdrawals(int new_number);
 };
+
+
+class Transaction {
+
+    public:
+        Transaction(std::string transaction_id, std::string date_time,
+                    std::string transaction_type, std::string account_holder,
+                    std::string source_account, double amount,
+                    std::string currency, std::string description,
+                    std::string status, std::string method);
+        Transaction(int id,
+                    std::string transaction_id, std::string date_time,
+                    std::string transaction_type, std::string account_holder,
+                    std::string source_account, double amount,
+                    std::string currency, std::string description,
+                    std::string status, std::string method);
+
+        void setTransactionId(std::string new_transaction_id);
+        void setDatetime(std::string new_date_time);
+        void setTransactionType(std::string new_transaction_type);
+        void setAccountHolder(std::string new_account_holder);
+        void setSourceAccount(std::string new_source_account);
+        void setDestinationAccount(std::string new_destination_account);
+        void setamount(double amount);
+        void setCurrency(std::string new_currency);
+        void setDescription(std::string new_descriction);
+        void setStatus(std::string new_status);
+        void std::string method(std::new_method);
+
+        std::string getTransactionId();
+        std::string getDatetime();
+        std::string getTransactionId();
+        std::string getAccountHolder();
+        std::optional<std::string> getSourceAccount();
+        std::optional<std::string> getDestinationAccount();
+        double getAmount();
+        std::string getCurrency();
+        std::string getDescription();
+        std::string getStatus();
+        std::string getMethod();
+
+    private:
+        int id; // primary key
+        std::string transaction_id;
+        std::string date_time;
+        std::string transaction_type;
+
+        std::string account_holder;
+        std::optional<std::string> sourceAccount; //
+        std::optional<std::string> destinationAccount; //
+
+        double amount;
+        std::string currency;
+        std::string description;
+
+        std::string status;
+        std::string method;
+};
+
+
+class Ledger {
+
+    private:
+        std::vector<Transaction> transactions;
+
+    public:
+        Ledger(Transaction& t);
+        void addTransaction(const Transaction& t);
+        const std::vector<Transaction>& getAllTransactions() const;
+        std::vector<Transaction> getTransactionsByAccountHolder(const std::string& accountHolder) const;
+        std::vector<Transaction> getTransactionsByType(const std::string& type) const;
+        double computeNetBalance() const;
+        double computeAccountBalance(const std::string& account) const;
+        double computeTotalByType(const std::string& type) const;
+        void printAll() const;
+};
 #endif

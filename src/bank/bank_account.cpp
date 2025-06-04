@@ -242,3 +242,168 @@ SavingAccount SavingAccount::CreateAccount(int user_id,
     
     return newAcc;
 }
+
+/*
+Transactions
+*/
+
+Transaction::Transaction(std::string transaction_id, std::string date_time,
+                    std::string transaction_type, std::string account_holder,
+                    std::string source_account, double amount,
+                    std::string currency, std::string description,
+                    std::string status, std::string method
+                    ) : transaction_id(transaction_id), date_time(date_time),
+                    transaction_id(transaction_id), account_holder(account_holder),
+                    source_account(source_account), amount(amount), currency(currency),
+                    description(description), status(status), method(method) {}
+
+void Transaction::setTransactionId(std::string new_transaction_id) {
+    transaction_id = new_transaction_id;
+}
+
+void Transaction::setDatetime(std::string new_date_time) {
+    date_time = new_date_time;
+}
+
+void Transaction::setTransactionType(std::string new_transaction_type) {
+    transaction_type = new_transaction_type;
+}
+
+void Transaction::setAccountHolder(std::string new_account_holder) {
+    account_holder = new_account_holder;
+}
+void Transaction::setSourceAccount(std::string new_source_account) {
+    source_account = new_source_account;
+}
+
+void Transaction::setDestinationAccount(std::string new_destination_account) {
+    destination_account = new_descriction;
+}
+void Transactio::setamount(double amount) {
+    amount = new_balance;
+}
+void Transaction::setCurrency(std::string new_currency) {
+    currency = new_currency;
+}
+void Transaction::setDescription(std::string new_descriction) {
+    description = new_descriction;
+}
+
+void Transaction::setStatus(std::string new_status) {
+    status = new_status;
+}
+void Transaction::satMethod(std::new_method) {
+    method = new_method;
+}
+
+std::string Transaction::getTransactionId() {
+    return transaction_id;
+}
+std::string Transaction::getDatetime() {
+    return date_time;
+}
+std::string Transaction::getTransactionId() {
+    return transaction_id;
+}
+std::string Transaction::getAccountHolder() {
+    return account_holder;
+}
+std::optional<std::string> Transaction::getSourceAccount() {
+    return source_account;
+}
+std::optional<std::string> Transaction::getDestinationAccount() {
+    return destination_account;
+}
+double Transaction::getAmount() {
+    return amount;
+}
+std::string Transaction::getCurrency() {
+    return currency;
+}
+std::string Transaction::getDescription() {
+    return description;
+}
+std::string Transaction::getStatus() {
+    return status;
+}
+std::string Transaction::getMethod() {
+    return method;
+}
+
+void Transaction::addTransaction(const Transaction& t) {
+    transactions.push_back(t);
+}
+
+/**
+Ledger
+ */
+Ledger(Transaction& t);
+const std::vector<Transaction>& Ledger::getAllTransactions() const {
+    return transactions;
+}
+
+std::vector<Transaction> Ledger::getTransactionsByAccountHolder(const std::string& accountHolder) const {
+    std::vector<Transaction> result;
+    for (const auto& t : transactions) {
+        if (t.getAccountHolder() == accountHolder) {
+            result.push_back(t);
+        }
+    }
+    return result;
+}
+
+double Ledger::computeNetBalance() const {
+    double balance = 0.0;
+    for (const auto& t : transactions) {
+        std::string type = t.getTransactionType();
+        if (type == "deposit" || type == "credit") {
+            balance += t.getAmount();
+        } else if (type == "withdrawal" || type == "debit") {
+            balance -= t.getAmount();
+        }
+    }
+    return balance;
+}
+
+double Ledger::computeAccountBalance(const std::string& account) const {
+    double balance = 0.0;
+    for (const auto& t : transactions) {
+        if (t.getDestinationAccount().has_value() && t.getDestinationAccount().value() == account) {
+            balance += t.getAmount(); // Incoming
+        }
+        if (t.getSourceAccount().has_value() && t.getSourceAccount().value() == account) {
+            balance -= t.getAmount(); // Outgoing
+        }
+    }
+    return balance;
+}
+
+double Ledger::computeTotalByType(const std::string& type) const {
+    double total = 0.0;
+    for (const auto& t : transactions) {
+        if (t.getTransactionType() == type) {
+            total += t.getAmount();
+        }
+    }
+    return total;
+}
+
+void Ledger::printAll() const {
+    std::cout << "All Transactions:\n";
+    std::cout << "----------------------------------------------\n";
+    for (const auto& t : transactions) {
+        std::cout << "ID: " << t.getTransactionId() << "\n";
+        std::cout << "Date: " << t.getDate() << "\n";
+        std::cout << "Type: " << t.getTransactionType() << "\n";
+        std::cout << "From: " << (t.getSourceAccount().has_value() ? t.getSourceAccount().value() : "N/A") << "\n";
+        std::cout << "To: " << (t.getDestinationAccount().has_value() ? t.getDestinationAccount().value() : "N/A") << "\n";
+        std::cout << "Amount: " << t.getAmount() << " " << t.getCurrency() << "\n";
+        std::cout << "Status: " << t.getStatus() << "\n";
+        std::cout << "Method: " << t.getMethod() << "\n";
+        std::cout << "Description: " << t.getDescription() << "\n";
+        std::cout << "----------------------------------------------\n";
+    }
+}
+
+
+
