@@ -13,6 +13,9 @@ public:
     bool saveAccount(const SavingAccount& account);
     std::optional<SavingAccount> findAccountById(int id);
 
+    bool saveTransaction(const Transaction& transaction);
+    std::vector<Transaction> getAllTransactions();
+
 private:
     std::string filename;
     std::mutex fileMutex;
@@ -20,6 +23,10 @@ private:
     std::vector<SavingAccount> loadAllAccounts();
     void writeAllAccounts(const std::vector<SavingAccount>& accounts);
     int getNextAccountID(const std::vector<SavingAccount>& accounts);
+
+    std::vector<Transaction> loadAllTransactions();
+    void writeAllTransactions(const std::vector<Transaction>& transactions);
+    int getNextTransactionID(const std::vector<Transaction>& transactions);
 };
 
 #endif

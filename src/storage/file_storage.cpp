@@ -1,7 +1,9 @@
 #include "file_storage.hpp"
 
 FileStorage::FileStorage()
-    : csvUsers("files/users.csv"), jsonAccounts("files/accounts.json") {}
+    : csvUsers("files/users.csv"),
+      jsonAccounts("files/accounts.json"),
+      jsonTransactions("files/transactions.json") {}
 
 std::string FileStorage::getStorageType() const {
     return "File";
@@ -31,4 +33,13 @@ bool FileStorage::saveAccount(const SavingAccount& account) {
 
 std::optional<SavingAccount> FileStorage::findAccountById(int id) {
     return jsonAccounts.findAccountById(id);
+}
+
+//Transaction method
+bool FileStorage::saveTransaction(const Transaction& transaction) {
+    return jsonTransactions.saveTransaction(transaction);
+}
+
+std::vector<Transaction> FileStorage::getAllTransactions() {
+    return jsonTransactions.getAllTransactions();
 }

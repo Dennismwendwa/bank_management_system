@@ -25,6 +25,10 @@ public:
     bool saveAccount(const SavingAccount& account) override; //insert into accounts table
     std::optional<SavingAccount> findAccountById(int id) override; // select from accounts
 
+    // Transaction
+    bool saveTransaction(const Transaction& transaction) override;
+    std::vector<Transaction> getAllTransactions() override;
+
     pqxx::connection* getConnection(); // For use in table creation
 
 private:

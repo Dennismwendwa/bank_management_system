@@ -118,3 +118,14 @@ std::optional<SavingAccount> DatabaseStorage::findAccountById(int id) {
     std::cout << "[DB] Finding account by ID (stub)\n";
     return std::nullopt;
 }
+
+bool DatabaseStorage::saveTransaction(const Transaction& transaction) {
+    // insert to transaction table
+    cout << transaction.getAmount();
+    return true;
+}
+
+std::vector<Transaction> DatabaseStorage::getAllTransactions() {
+    // getting all transaction records
+    return {};
+}

@@ -19,5 +19,9 @@ class IStorage {
         // Account methods
         virtual bool saveAccount(const SavingAccount& account) = 0;
         virtual std::optional<SavingAccount> findAccountById(int id) = 0;
+
+        // Transaction methods
+        virtual bool saveTransaction(const Transaction& transaction) = 0;
+        virtual std::vector<Transaction> getAllTransactions() = 0;
 };
 #endif

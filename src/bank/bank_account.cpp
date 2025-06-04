@@ -238,7 +238,8 @@ SavingAccount SavingAccount::CreateAccount(int user_id,
                                   std::string account_holder,
                                   double amount, std::string national_id, double rate) {
     
-    SavingAccount newAcc(user_id, account_holder, generateAccountNumber(user_id), amount, national_id, rate);
+    SavingAccount newAcc(user_id, account_holder, generateAccountNumber(user_id),
+                         amount, national_id, rate);
     
     return newAcc;
 }
@@ -247,15 +248,55 @@ SavingAccount SavingAccount::CreateAccount(int user_id,
 Transactions
 */
 
-Transaction::Transaction(std::string transaction_id, std::string date_time,
-                    std::string transaction_type, std::string account_holder,
-                    std::string source_account, double amount,
-                    std::string currency, std::string description,
-                    std::string status, std::string method
-                    ) : transaction_id(transaction_id), date_time(date_time),
-                    transaction_id(transaction_id), account_holder(account_holder),
-                    source_account(source_account), amount(amount), currency(currency),
-                    description(description), status(status), method(method) {}
+Transaction::Transaction(
+                    std::string transaction_id,
+                    std::string date_time,
+                    std::string transaction_type,
+                    std::string account_holder,
+                    double amount,
+                    std::string currency,
+                    std::string description,
+                    std::string status,
+                    std::string method,
+                    std::string source_account,
+                    std::optional<std::string> destination_account
+                    ) : transaction_id(transaction_id),
+                    date_time(date_time),
+                    transaction_type(transaction_type),
+                    account_holder(account_holder),
+                    amount(amount),
+                    currency(currency),
+                    description(description),
+                    status(status),
+                    method(method),
+                    source_account(source_account),
+                    destination_account(destination_account) {}
+
+Transaction::Transaction(
+                    int id, // primary key
+                    std::string transaction_id,
+                    std::string date_time,
+                    std::string transaction_type,
+                    std::string account_holder,
+                    double amount,
+                    std::string currency,
+                    std::string description,
+                    std::string status,
+                    std::string method,
+                    std::string source_account,
+                    std::optional<std::string> destination_account
+                    ) : id(id),
+                    transaction_id(transaction_id),
+                    date_time(date_time),
+                    transaction_type(transaction_type),
+                    account_holder(account_holder),
+                    amount(amount),
+                    currency(currency),
+                    description(description),
+                    status(status),
+                    method(method),
+                    source_account(source_account),
+                    destination_account(destination_account) {}
 
 void Transaction::setTransactionId(std::string new_transaction_id) {
     transaction_id = new_transaction_id;
@@ -277,10 +318,10 @@ void Transaction::setSourceAccount(std::string new_source_account) {
 }
 
 void Transaction::setDestinationAccount(std::string new_destination_account) {
-    destination_account = new_descriction;
+    destination_account = new_destination_account;
 }
-void Transactio::setamount(double amount) {
-    amount = new_balance;
+void Transaction::setamount(double new_amount) {
+    amount = new_amount;
 }
 void Transaction::setCurrency(std::string new_currency) {
     currency = new_currency;
@@ -292,51 +333,70 @@ void Transaction::setDescription(std::string new_descriction) {
 void Transaction::setStatus(std::string new_status) {
     status = new_status;
 }
-void Transaction::satMethod(std::new_method) {
+void Transaction::setMethod(std::string new_method) {
     method = new_method;
 }
+void Transaction::setPrimaryKey(int new_id) {
+    id = new_id;
+}
 
-std::string Transaction::getTransactionId() {
+int Transaction::getPrimaryKey() const {
+    return id;
+}
+
+std::string Transaction::getTransactionId() const {
     return transaction_id;
 }
-std::string Transaction::getDatetime() {
+std::string Transaction::getDatetime() const {
     return date_time;
 }
-std::string Transaction::getTransactionId() {
-    return transaction_id;
-}
-std::string Transaction::getAccountHolder() {
+
+std::string Transaction::getAccountHolder() const {
     return account_holder;
 }
-std::optional<std::string> Transaction::getSourceAccount() {
+std::optional<std::string> Transaction::getSourceAccount() const {
     return source_account;
 }
-std::optional<std::string> Transaction::getDestinationAccount() {
+std::optional<std::string> Transaction::getDestinationAccount() const {
     return destination_account;
 }
-double Transaction::getAmount() {
+double Transaction::getAmount() const {
     return amount;
 }
-std::string Transaction::getCurrency() {
+std::string Transaction::getCurrency() const {
     return currency;
 }
-std::string Transaction::getDescription() {
+std::string Transaction::getDescription() const {
     return description;
 }
-std::string Transaction::getStatus() {
+std::string Transaction::getStatus() const {
     return status;
 }
-std::string Transaction::getMethod() {
+std::string Transaction::getMethod() const {
     return method;
 }
+std::string Transaction::getTransactionType() const {
+    return transaction_type;
+}
 
-void Transaction::addTransaction(const Transaction& t) {
-    transactions.push_back(t);
+Transaction Transaction::createTransaction(
+            const std::string& transaction_id, const std::string& date_time,
+            const std::string& transaction_type, const std::string& account_holder,
+            double amount, const std::string& currency, const std::string& description,
+            const std::string& status, const std::string& method,
+            const std::string source_account,
+            std::optional<std::string> destination_account) {
+        Transaction newTrans(transaction_id, date_time, transaction_type, account_holder,
+                             amount, currency, description, status, method, source_account,
+                            destination_account);
+        
+    return newTrans;
 }
 
 /**
 Ledger
  */
+/*
 Ledger(Transaction& t);
 const std::vector<Transaction>& Ledger::getAllTransactions() const {
     return transactions;
@@ -405,5 +465,9 @@ void Ledger::printAll() const {
     }
 }
 
+
+
+
+*/
 
 

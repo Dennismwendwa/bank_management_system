@@ -9,6 +9,7 @@
 #include <locale>
 #include <stdexcept>
 #include <vector>
+#include <optional>
 using namespace std;
 
 class BankAccount {
@@ -87,19 +88,22 @@ class SavingAccount : public BankAccount {
 
 
 class Transaction {
-
     public:
         Transaction(std::string transaction_id, std::string date_time,
                     std::string transaction_type, std::string account_holder,
-                    std::string source_account, double amount,
+                    double amount,
                     std::string currency, std::string description,
-                    std::string status, std::string method);
+                    std::string status, std::string method,
+                    std::string source_account,
+                    std::optional<std::string> destination_account = std::nullopt);
         Transaction(int id,
                     std::string transaction_id, std::string date_time,
                     std::string transaction_type, std::string account_holder,
-                    std::string source_account, double amount,
+                    double amount,
                     std::string currency, std::string description,
-                    std::string status, std::string method);
+                    std::string status, std::string method,
+                    std::string source_account,
+                    std::optional<std::string> destination_account = std::nullopt);
 
         void setTransactionId(std::string new_transaction_id);
         void setDatetime(std::string new_date_time);
@@ -107,23 +111,35 @@ class Transaction {
         void setAccountHolder(std::string new_account_holder);
         void setSourceAccount(std::string new_source_account);
         void setDestinationAccount(std::string new_destination_account);
-        void setamount(double amount);
+        void setamount(double new_amount);
         void setCurrency(std::string new_currency);
         void setDescription(std::string new_descriction);
         void setStatus(std::string new_status);
-        void std::string method(std::new_method);
+        void setMethod(std::string new_method);
+        void setPrimaryKey(int new_id);
+        
+        int getPrimaryKey() const;
+        std::string getTransactionId() const;
+        std::string getDatetime() const;
+        std::string getAccountHolder() const;
+        std::optional<std::string> getSourceAccount() const;
+        std::optional<std::string> getDestinationAccount() const;
+        double getAmount() const;
+        std::string getCurrency() const;
+        std::string getDescription() const;
+        std::string getStatus() const;
+        std::string getMethod() const;
+        std::string getTransactionType() const;
 
-        std::string getTransactionId();
-        std::string getDatetime();
-        std::string getTransactionId();
-        std::string getAccountHolder();
-        std::optional<std::string> getSourceAccount();
-        std::optional<std::string> getDestinationAccount();
-        double getAmount();
-        std::string getCurrency();
-        std::string getDescription();
-        std::string getStatus();
-        std::string getMethod();
+        //void addTransaction(const Transaction& t);
+        static Transaction createTransaction(
+            const std::string& transaction_id, const std::string& date_time,
+            const std::string& transaction_type, const std::string& account_holder,
+            double amount, const std::string& currency, const std::string& description,
+            const std::string& status, const std::string& method,
+            const std::string source_account,
+            std::optional<std::string> destination_account = std::nullopt
+        );
 
     private:
         int id; // primary key
@@ -132,18 +148,18 @@ class Transaction {
         std::string transaction_type;
 
         std::string account_holder;
-        std::optional<std::string> sourceAccount; //
-        std::optional<std::string> destinationAccount; //
-
         double amount;
         std::string currency;
-        std::string description;
 
+        std::string description;
         std::string status;
         std::string method;
+
+        std::string source_account;
+        std::optional<std::string> destination_account = std::nullopt; //
 };
 
-
+/*
 class Ledger {
 
     private:
@@ -160,4 +176,5 @@ class Ledger {
         double computeTotalByType(const std::string& type) const;
         void printAll() const;
 };
+*/
 #endif

@@ -8,6 +8,7 @@
 class FileStorage : public IStorage {
     CSVStorage csvUsers;
     JSONStorage jsonAccounts;
+    JSONStorage jsonTransactions;
 
     public:
         FileStorage();
@@ -23,6 +24,10 @@ class FileStorage : public IStorage {
         // Account methods
         bool saveAccount(const SavingAccount& account) override;
         std::optional<SavingAccount> findAccountById(int id) override;
+
+        // Transaction methods
+        bool saveTransaction(const Transaction& transaction) override;
+        std::vector<Transaction> getAllTransactions() override;
 };
 
 #endif
