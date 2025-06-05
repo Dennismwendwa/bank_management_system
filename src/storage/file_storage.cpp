@@ -1,9 +1,9 @@
 #include "file_storage.hpp"
 
 FileStorage::FileStorage()
-    : csvUsers("files/users.csv"),
-      jsonAccounts("files/accounts.json"),
-      jsonTransactions("files/transactions.json") {}
+    : csvUsers("data/users.csv"),
+      jsonAccounts("data/accounts.json"),
+      jsonTransactions("data/transactions.json") {}
 
 std::string FileStorage::getStorageType() const {
     return "File";

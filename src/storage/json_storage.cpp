@@ -11,7 +11,6 @@ bool JSONStorage::saveAccount(const SavingAccount& account) {
 
     SavingAccount modifiableAccount = account;
 
-    cout << "\nStorage save\n";
     auto accounts = loadAllAccounts();
     int next_id = getNextAccountID(accounts);
     modifiableAccount.setAccountId(next_id);
@@ -27,6 +26,19 @@ std::optional<SavingAccount> JSONStorage::findAccountById(int id) {
     auto accounts = loadAllAccounts();
     for (const auto& acc : accounts) {
         if (acc.getAccountId() == id) {
+            return acc;
+        }
+    }
+    return std::nullopt;
+}
+
+std::optional<SavingAccount> findAccountByAccountNumber(std::string account_number)
+ {
+    std::lock_guard<std::mutex> lock(fileMutex);
+
+    auto accounts = loadAllAccounts();
+    for (const auto& acc : accounts) {
+        if (acc.getAccountNumber() == account_number) {
             return acc;
         }
     }
@@ -157,9 +169,7 @@ bool JSONStorage::saveTransaction(const Transaction& transaction) {
 
     Transaction transaction_copy = transaction;
     transaction_copy.setPrimaryKey(next_id);
-    cout << "\n\n\n";
     cout << transaction_copy.getPrimaryKey() << endl;
-    cout << "\n\n\n\n";
     transactions.push_back(transaction_copy);
     writeAllTransactions(transactions);
     return true;

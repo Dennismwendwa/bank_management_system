@@ -32,7 +32,7 @@
         }
     }
 
-    void login(Auth& auth) {
+    bool login(Auth& auth) {
         std::string username, password;
         cout << "Enter your username: ";
         cin >> username;
@@ -43,8 +43,10 @@
         std::optional<User> user = auth.login(username, password);
         if (user) {
             current_user = std::make_shared<User>(*user);
+            return true;
         } else {
             std::cout << "Login failed.\n";
+            return false;
         }
 
     }
@@ -85,8 +87,11 @@ int main() {
         {
         case 1:
             cout << "loging in now." << endl;
-            login(auth);
-            flag = false;
+            if (login(auth)) {
+                flag = false;
+            } else {
+                cout << "\n Login failed\n\n";
+            }
             break;
         case 2:
             cout << "Register new user." << endl;
@@ -157,6 +162,15 @@ int main() {
         case 2:
             break;
         case 3:
+            cout << "About to withdrawal money now.\n";
+            std::string account_number;
+            double amount{0};
+            cout << "Enter account number: ";
+            cin >> account_number;
+
+            cout << "Enter amount: ";
+            cin>> amount;
+            
             break;
         case 4:
             break;
