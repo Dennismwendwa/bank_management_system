@@ -163,14 +163,21 @@ class Transaction {
         std::optional<std::string> destination_account = std::nullopt; //
 };
 
-/*
+
 class Ledger {
 
     private:
         std::vector<Transaction> transactions;
 
+        int id;
+        std::string account_number;
+        std::string date;
+        std::string currency;
+
+
     public:
         Ledger(Transaction& t);
+        Ledger(Transaction& t, std::string accountNumber, std::string currency, std::string date);
         void addTransaction(const Transaction& t);
         const std::vector<Transaction>& getAllTransactions() const;
         std::vector<Transaction> getTransactionsByAccountHolder(const std::string& accountHolder) const;
@@ -180,5 +187,5 @@ class Ledger {
         double computeTotalByType(const std::string& type) const;
         void printAll() const;
 };
-*/
+
 #endif

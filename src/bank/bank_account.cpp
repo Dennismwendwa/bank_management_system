@@ -402,8 +402,16 @@ Transaction Transaction::createTransaction(
 /**
 Ledger
  */
-/*
-Ledger(Transaction& t);
+
+Ledger::Ledger(Transaction& t) {
+    transactions.push_back(t);
+}
+
+Ledger::Ledger(Transaction& t, std::string account_holder, std::string currency, std::string date
+    ) : account_number(account_holder), date(date), currency(currency) {
+    transactions.push_back(t);
+}
+
 const std::vector<Transaction>& Ledger::getAllTransactions() const {
     return transactions;
 }
@@ -459,7 +467,7 @@ void Ledger::printAll() const {
     std::cout << "----------------------------------------------\n";
     for (const auto& t : transactions) {
         std::cout << "ID: " << t.getTransactionId() << "\n";
-        std::cout << "Date: " << t.getDate() << "\n";
+        std::cout << "Date: " << t.getDatetime() << "\n";
         std::cout << "Type: " << t.getTransactionType() << "\n";
         std::cout << "From: " << (t.getSourceAccount().has_value() ? t.getSourceAccount().value() : "N/A") << "\n";
         std::cout << "To: " << (t.getDestinationAccount().has_value() ? t.getDestinationAccount().value() : "N/A") << "\n";
@@ -470,10 +478,3 @@ void Ledger::printAll() const {
         std::cout << "----------------------------------------------\n";
     }
 }
-
-
-
-
-*/
-
-

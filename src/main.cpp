@@ -202,7 +202,7 @@ int main() {
             }
             break;
         }
-        case 4:
+        case 4: {
             std::string from_account, to_account, id_number, names;
             double amount;
             cout << "\nAbout to transfer money" << endl;
@@ -211,18 +211,23 @@ int main() {
             cout << "Enter your ID number: ";
             cin >> id_number;
             cout << "Enter your account number: ";
-            cin >> from_account:
+            cin >> from_account;
             cout << "Enter Account to transfer money to: ";
             cin >> to_account;
             cout << "Enter amount to transfer: ";
             cin >> amount;
-            
+            try {
+                bank.transfer(id_number, from_account, to_account, amount);
+            } catch (const std::exception& e) {
+                std::cerr << "Error: " << e.what() << "\n";
+            }
             break;
-        case 5:
+        }
+        case 5: {
             cout << "Exiting now. Bye Bye.";
             bank_options = false;
             break;
-        
+        }
         default:
             cout << "Invalid option. Please try again:" << endl;
             break;

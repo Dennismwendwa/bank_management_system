@@ -39,7 +39,25 @@ void Bank::recordTransaction(const std::string& type, const SavingAccount& accou
     Transaction trans = Transaction::createTransaction(
         generateTransactionID(), getCurrentDayTime(), type,
         account.getAccountHolder(), amount, currency,
-        description, status, method, account.getAccountNumber()
+        description, status, method, account.getAccountNumber());
+
+    storage->saveTransaction(trans);
+}
+
+void Bank::recordTransaction(std::string transaction_id, const std::string& type,
+                             const SavingAccount& account,
+                             double amount, 
+                             const std::string& description,
+                             const SavingAccount& from_account) {
+    std::string currency = "KSH";
+    std::string status = "Completed";
+    std::string method = "Bank";
+
+    Transaction trans = Transaction::createTransaction(
+        transaction_id, getCurrentDayTime(), type,
+        account.getAccountHolder(), amount, currency,
+        description, status, method, account.getAccountNumber(), 
+        from_account.getAccountNumber()
     );
 
     storage->saveTransaction(trans);
@@ -64,7 +82,17 @@ bool Bank::withdraw(std::string account_number, double amount) {
 bool Bank::deposit(std::string account_number, std::string id_number, double amount) {
     std::optional<SavingAccount> account = storage->findAccountByAccountNumber(account_number);
 
-    if (account && amount > 0) {
+    if (!account) {
+        return false;
+    }
+
+    if (account->getNationalId() != id_number) {
+        std::cerr << "Error: Provided ID does not match account owner.\n";
+        return false;
+    }
+
+
+    if (amount > 0) {
         account->deposit(amount);
         saveUpdatedAccount(*account);
         recordTransaction("deposit", *account, amount, "Deposit of money");
@@ -73,18 +101,28 @@ bool Bank::deposit(std::string account_number, std::string id_number, double amo
     return false;
 }
 
-bool Bank::transfer(std::string from_account_number, std::string to_account_number, double amount) {
+bool Bank::transfer(std::string id_number, std::string from_account_number, std::string to_account_number, double amount) {
     std::optional<SavingAccount> from_account = storage->findAccountByAccountNumber(from_account_number);
     std::optional<SavingAccount> to_account = storage->findAccountByAccountNumber(to_account_number);
 
-    if (from_account && to_account && amount > 0) {
+    if (!from_account || !to_account) {
+        return false;
+    }
+
+    if (from_account->getNationalId() != id_number) {
+        std::cerr << "Error: Provided ID does not match account owner.\n";
+        return false;
+    }
+
+    if (amount > 0) {
         from_account->transfer(*to_account, amount);
 
         saveUpdatedAccount(*from_account);
         saveUpdatedAccount(*to_account);
 
-        recordTransaction("transfer_out", *from_account, amount, "Transfer of money to another account");
-        recordTransaction("transfer_in", *to_account, amount, "Transfer of money received");
+        std::string transaction_id = generateTransactionID();
+        recordTransaction(transaction_id, "transfer_out", *from_account, amount, "Transfer of money to another account", *to_account);
+        recordTransaction(transaction_id, "transfer_in", *to_account, amount, "Transfer of money received", *from_account);
 
         return true;
     }
