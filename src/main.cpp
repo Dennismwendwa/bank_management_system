@@ -150,7 +150,6 @@ int main() {
             } catch (const std::exception& e) {
                 std::cerr << "Error: " << e.what() << "\n";
             }
-            
             cout << "\n\n" << acc_c.getAccountNumber() << "\n\n";
             break;
         }
