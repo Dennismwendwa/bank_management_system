@@ -9,13 +9,24 @@ JSONStorage::JSONStorage(const std::string& filename) : filename(filename) {}
 bool JSONStorage::saveAccount(const SavingAccount& account) {
     std::lock_guard<std::mutex> lock(fileMutex);
 
-    SavingAccount modifiableAccount = account;
-
     auto accounts = loadAllAccounts();
-    int next_id = getNextAccountID(accounts);
-    modifiableAccount.setAccountId(next_id);
+    bool found = false;
+    
+    for (auto& acc : accounts) {
+        if (acc.getAccountNumber() == account.getAccountNumber()) {
+            acc = account;
+            found = true;
+            break;
+        }
+    }
 
-    accounts.push_back(modifiableAccount);
+    if (!found) {
+        SavingAccount modifiableAccount = account;
+        int next_id = getNextAccountID(accounts);
+        modifiableAccount.setAccountId(next_id);
+        accounts.push_back(modifiableAccount);
+    }
+    
     writeAllAccounts(accounts);
     return true;
 }
@@ -32,8 +43,8 @@ std::optional<SavingAccount> JSONStorage::findAccountById(int id) {
     return std::nullopt;
 }
 
-std::optional<SavingAccount> findAccountByAccountNumber(std::string account_number)
- {
+std::optional<SavingAccount> JSONStorage::findAccountByAccountNumber(const std::string& account_number)
+{
     std::lock_guard<std::mutex> lock(fileMutex);
 
     auto accounts = loadAllAccounts();

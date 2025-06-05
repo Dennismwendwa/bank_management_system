@@ -119,6 +119,12 @@ std::optional<SavingAccount> DatabaseStorage::findAccountById(int id) {
     return std::nullopt;
 }
 
+std::optional<SavingAccount> DatabaseStorage::findAccountByAccountNumber(const std::string& account_number) {
+    // for later
+    cout << "Account number: " << account_number;
+    return std::nullopt;
+}
+
 bool DatabaseStorage::saveTransaction(const Transaction& transaction) {
     // insert to transaction table
     cout << transaction.getAmount();

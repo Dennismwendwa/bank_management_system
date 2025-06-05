@@ -218,6 +218,12 @@ void SavingAccount::withdraw(double amount) {
     }
 }
 
+void SavingAccount::deposit(double amount) {
+    if (amount > 0) {
+        setBalance(getBalance() + amount);
+    }
+}
+
 void SavingAccount::transfer(SavingAccount& to, double amount) {
     if (getBalance() - getMinimumBalance() > amount) {
         if (amount > 0) {

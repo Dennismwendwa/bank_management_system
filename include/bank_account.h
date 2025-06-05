@@ -48,6 +48,7 @@ class BankAccount {
 
 
 class SavingAccount : public BankAccount {
+    friend class Bank;
     public:
         SavingAccount(int user_id, std::string ah, std::string an, double b, std::string ni, double rate);
         SavingAccount(int account_id, int user_id, std::string account_holder, std::string account_number,
@@ -68,12 +69,7 @@ class SavingAccount : public BankAccount {
 	int getMaxWithdrawals() const;
 	void setAccountType(std::string new_type);
 	std::string getAccountType() const;
-    void showAccountDetails();
-    void withdraw(double amount);
-    void transfer(SavingAccount& to, double amount);
-    static SavingAccount CreateAccount(int user_id,
-                              std::string account_holder,
-                              double amount, std::string national_id, double rate);
+
 
     private:
         std::string created_on;
@@ -84,6 +80,14 @@ class SavingAccount : public BankAccount {
         std::string account_type;
 
         void addMonthlyWithdrawals(int new_number);
+
+        void showAccountDetails();
+        void withdraw(double amount);
+        void transfer(SavingAccount& to, double amount);
+        static SavingAccount CreateAccount(int user_id,
+                                std::string account_holder,
+                                double amount, std::string national_id, double rate);
+        void deposit(double amount);
 };
 
 

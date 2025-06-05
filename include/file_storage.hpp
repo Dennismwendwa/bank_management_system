@@ -24,6 +24,7 @@ class FileStorage : public IStorage {
         // Account methods
         bool saveAccount(const SavingAccount& account) override;
         std::optional<SavingAccount> findAccountById(int id) override;
+        std::optional<SavingAccount> findAccountByAccountNumber(const std::string& account_number) override;
 
         // Transaction methods
         bool saveTransaction(const Transaction& transaction) override;

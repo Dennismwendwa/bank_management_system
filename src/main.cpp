@@ -3,8 +3,15 @@
 #include "storage_factory.hpp"
 #include "bank_ops.hpp"
 
+
     void selectOptions() {
         
+    }
+
+    std::string trim(const std::string& str) {
+        auto start = std::find_if_not(str.begin(), str.end(), ::isspace);
+        auto end = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
+        return (start < end) ? std::string(start, end) : "";
     }
 
     void registerUser(Auth& auth) {
@@ -149,18 +156,37 @@ int main() {
 
             //SavingAccount newAcc(current_user->getUserId(), names, "1234567890", amount, 4.5);
             double rate = 4.5;
-            SavingAccount acc_c = SavingAccount::CreateAccount(current_user->getUserId(), names, amount, id_number, rate);
+            //SavingAccount acc_c = SavingAccount::CreateAccount(current_user->getUserId(), names, amount, id_number, rate);
             try {
                 bank.openAccount(current_user->getUserId(), names, amount, id_number, rate);
             } catch (const std::exception& e) {
                 std::cerr << "Error: " << e.what() << "\n";
             }
-            cout << "\n\n" << acc_c.getAccountNumber() << "\n\n";
             break;
         }
-        case 2:
+        case 2:{
+            std::string account_number, id_number;
+            double amount;
+            cout << "Enter your account number: ";
+            cin >> account_number;
+            std::cin.ignore();
+
+            cout << "Enter your ID number/ Passport number: ";
+            cin >> id_number;
+            std::cin.ignore();
+
+            cout << "Enter the amount to deposit: ";
+            cin >> amount;
+            std::cin.ignore();
+            
+            try {
+                bank.deposit(account_number, id_number, amount);
+            } catch (const std::exception& e) {
+                std::cerr << "Error: " << e.what() << "\n";
+            }
             break;
-        case 3:
+        }
+        case 3: {
             cout << "About to withdrawal money now.\n";
             std::string account_number;
             double amount{0};
@@ -169,9 +195,28 @@ int main() {
 
             cout << "Enter amount: ";
             cin>> amount;
-            
+            try {
+                bank.withdraw(account_number, amount);
+            } catch (const std::exception& e) {
+                std::cerr << "Error: " << e.what() << "\n";
+            }
             break;
+        }
         case 4:
+            std::string from_account, to_account, id_number, names;
+            double amount;
+            cout << "\nAbout to transfer money" << endl;
+            cout << "Enter your name: ";
+            cin >> names;
+            cout << "Enter your ID number: ";
+            cin >> id_number;
+            cout << "Enter your account number: ";
+            cin >> from_account:
+            cout << "Enter Account to transfer money to: ";
+            cin >> to_account;
+            cout << "Enter amount to transfer: ";
+            cin >> amount;
+            
             break;
         case 5:
             cout << "Exiting now. Bye Bye.";

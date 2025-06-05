@@ -1,7 +1,11 @@
 #include "accounts/helper.hpp"
+#include "bank_account.h"
 
-void updateMonthlyWithdrawals(User& user) {
-    if (user.monthly_withdrawals > 0) {
-        user.monthly_withdrawals--;
-    }
+
+void updateMonthlyWithdrawals(SavingAccount& account) {
+    int withdrawals{account.getMonthlyWithdrawals()};
+    
+    withdrawals++;
+    
+    account.setMonthlyWithdrawals(withdrawals);
 }

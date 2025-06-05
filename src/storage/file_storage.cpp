@@ -35,6 +35,10 @@ std::optional<SavingAccount> FileStorage::findAccountById(int id) {
     return jsonAccounts.findAccountById(id);
 }
 
+std::optional<SavingAccount> FileStorage::findAccountByAccountNumber(const std::string& account_number) {
+    return jsonAccounts.findAccountByAccountNumber(account_number);
+}
+
 //Transaction method
 bool FileStorage::saveTransaction(const Transaction& transaction) {
     return jsonTransactions.saveTransaction(transaction);

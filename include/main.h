@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <cctype>
 #include "auth.hpp"
 
 inline std::shared_ptr<User> current_user = nullptr;

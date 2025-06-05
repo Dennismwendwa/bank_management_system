@@ -24,6 +24,7 @@ public:
     // Account methods
     bool saveAccount(const SavingAccount& account) override; //insert into accounts table
     std::optional<SavingAccount> findAccountById(int id) override; // select from accounts
+    std::optional<SavingAccount> findAccountByAccountNumber(const std::string& account_number) override;
 
     // Transaction
     bool saveTransaction(const Transaction& transaction) override;

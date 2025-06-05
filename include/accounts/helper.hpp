@@ -1,6 +1,7 @@
 #ifndef HELPER_HPP
 #define HELPER_HPP
+#include "bank_account.h"
 
-void updateMonthlyWithdrawals(User& user);
+void updateMonthlyWithdrawals(SavingAccount& account);
 
 #endif

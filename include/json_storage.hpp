@@ -12,7 +12,7 @@ public:
 
     bool saveAccount(const SavingAccount& account);
     std::optional<SavingAccount> findAccountById(int id);
-    std::optional<SavingAccount> findAccountByAccountNumber(std::string account_number);
+    std::optional<SavingAccount> findAccountByAccountNumber(const std::string& account_number);
 
     bool saveTransaction(const Transaction& transaction);
     std::vector<Transaction> getAllTransactions();
