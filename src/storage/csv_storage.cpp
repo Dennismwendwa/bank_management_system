@@ -88,7 +88,7 @@ std::vector<User> CSVStorage::loadUsersFromFileUnlocked() {
 }
 
 void CSVStorage::appendUserToFile(const User& user) {
-    fs::create_directories("files");
+    fs::create_directories("data");
 
     std::ifstream infile(filename);
     bool fileExists = infile.good();

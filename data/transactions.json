@@ -1,0 +1,58 @@
+[
+    {
+        "account_holder": "anna",
+        "amount": 45000.0,
+        "currency": "KSH",
+        "date_time": "2025-06-04 15:06-57",
+        "description": "Opening account deposit",
+        "destination_account": "",
+        "id": 1,
+        "method": "Bank",
+        "source_account": "SAV002805191",
+        "status": "Completed",
+        "transaction_id": "TXN17490388172158676",
+        "transaction_type": "deposit"
+    },
+    {
+        "account_holder": "mumbua",
+        "amount": 23000.0,
+        "currency": "KSH",
+        "date_time": "2025-06-04 15:07-18",
+        "description": "Opening account deposit",
+        "destination_account": "",
+        "id": 2,
+        "method": "Bank",
+        "source_account": "SAV002962698",
+        "status": "Completed",
+        "transaction_id": "TXN17490388386692359",
+        "transaction_type": "deposit"
+    },
+    {
+        "account_holder": "dennis",
+        "amount": 23000.0,
+        "currency": "KSH",
+        "date_time": "2025-06-04 21:24-53",
+        "description": "Opening account deposit",
+        "destination_account": "",
+        "id": 3,
+        "method": "Bank",
+        "source_account": "SAV003146358",
+        "status": "Completed",
+        "transaction_id": "TXN17490614932104943",
+        "transaction_type": "deposit"
+    },
+    {
+        "account_holder": "mwendwa",
+        "amount": 87000.0,
+        "currency": "KSH",
+        "date_time": "2025-06-04 21:40-18",
+        "description": "Opening account deposit",
+        "destination_account": "",
+        "id": 4,
+        "method": "Bank",
+        "source_account": "SAV001169110",
+        "status": "Completed",
+        "transaction_id": "TXN17490624184452122",
+        "transaction_type": "deposit"
+    }
+]
