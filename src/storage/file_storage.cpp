@@ -3,7 +3,8 @@
 FileStorage::FileStorage()
     : csvUsers("data/users.csv"),
       jsonAccounts("data/accounts.json"),
-      jsonTransactions("data/transactions.json") {}
+      jsonTransactions("data/transactions.json"),
+      jsonLedger("data/ledger.json") {}
 
 std::string FileStorage::getStorageType() const {
     return "File";
@@ -46,4 +47,14 @@ bool FileStorage::saveTransaction(const Transaction& transaction) {
 
 std::vector<Transaction> FileStorage::getAllTransactions() {
     return jsonTransactions.getAllTransactions();
+}
+
+// Ledger methods
+bool FileStorage::saveLedger(const Ledger& ledger) {
+    cout << "\n\n file saveLeger method\n";
+    return jsonLedger.saveLedger(ledger);
+}
+
+std::vector<Ledger> FileStorage::loadWholeLedger() {
+    return jsonLedger.loadWholeLedger();
 }

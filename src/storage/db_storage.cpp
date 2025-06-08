@@ -135,3 +135,14 @@ std::vector<Transaction> DatabaseStorage::getAllTransactions() {
     // getting all transaction records
     return {};
 }
+
+bool DatabaseStorage::saveLedger(const Ledger& ledger) {
+    // for later
+    cout << ledger.getAccountNumber();
+    return true;
+}
+
+std::vector<Ledger> DatabaseStorage::loadWholeLedger() {
+    // for later
+    return {};
+}

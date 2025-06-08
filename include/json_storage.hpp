@@ -17,6 +17,9 @@ public:
     bool saveTransaction(const Transaction& transaction);
     std::vector<Transaction> getAllTransactions();
 
+    bool saveLedger(const Ledger& ledger);
+    std::vector<Ledger> loadWholeLedger();
+
 private:
     std::string filename;
     std::mutex fileMutex;
@@ -28,6 +31,9 @@ private:
     std::vector<Transaction> loadAllTransactions();
     void writeAllTransactions(const std::vector<Transaction>& transactions);
     int getNextTransactionID(const std::vector<Transaction>& transactions);
+
+    std::vector<Ledger> loadAllLedger();
+    void writeAllLedger(const std::vector<Ledger>& ledgers);
 };
 
 #endif

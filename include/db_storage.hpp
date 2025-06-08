@@ -30,6 +30,10 @@ public:
     bool saveTransaction(const Transaction& transaction) override;
     std::vector<Transaction> getAllTransactions() override;
 
+    // Ledger methods
+    virtual bool saveLedger(const Ledger& transaction) override;
+    virtual std::vector<Ledger> loadWholeLedger() override;
+
     pqxx::connection* getConnection(); // For use in table creation
 
 private:

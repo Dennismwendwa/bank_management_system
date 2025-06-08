@@ -9,6 +9,7 @@ class FileStorage : public IStorage {
     CSVStorage csvUsers;
     JSONStorage jsonAccounts;
     JSONStorage jsonTransactions;
+    JSONStorage jsonLedger;
 
     public:
         FileStorage();
@@ -29,6 +30,9 @@ class FileStorage : public IStorage {
         // Transaction methods
         bool saveTransaction(const Transaction& transaction) override;
         std::vector<Transaction> getAllTransactions() override;
-};
 
+        // Ledger methods
+        bool saveLedger(const Ledger& ledger) override;
+        std::vector<Ledger> loadWholeLedger() override;
+};
 #endif

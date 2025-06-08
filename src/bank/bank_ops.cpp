@@ -42,6 +42,14 @@ void Bank::recordTransaction(const std::string& type, const SavingAccount& accou
         description, status, method, account.getAccountNumber());
 
     storage->saveTransaction(trans);
+
+    Ledger new_ledger = Ledger::createLedger(trans, account.getAccountHolder(), currency, getCurrentDayTime());
+    
+    cout << "\n\nTransaction ddetail " << trans.getAmount() << endl;
+    //new_ledger.printAll();
+    cout << "\n\n";
+    
+    storage->saveLedger(new_ledger);
 }
 
 void Bank::recordTransaction(std::string transaction_id, const std::string& type,
@@ -61,6 +69,12 @@ void Bank::recordTransaction(std::string transaction_id, const std::string& type
     );
 
     storage->saveTransaction(trans);
+
+    Ledger new_ledger = Ledger::createLedger(trans, account.getAccountHolder(), currency, getCurrentDayTime());
+    cout << "\n\nTransaction ddetail " << trans.getAmount() << endl;
+    //new_ledger.printAll();
+    cout << "\n\n";
+    storage->saveLedger(new_ledger);
 }
 
 void Bank::saveUpdatedAccount(const SavingAccount& account) {
@@ -90,7 +104,6 @@ bool Bank::deposit(std::string account_number, std::string id_number, double amo
         std::cerr << "Error: Provided ID does not match account owner.\n";
         return false;
     }
-
 
     if (amount > 0) {
         account->deposit(amount);

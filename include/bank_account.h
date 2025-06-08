@@ -135,7 +135,6 @@ class Transaction {
         std::string getMethod() const;
         std::string getTransactionType() const;
 
-        //void addTransaction(const Transaction& t);
         static Transaction createTransaction(
             const std::string& transaction_id, const std::string& date_time,
             const std::string& transaction_type, const std::string& account_holder,
@@ -165,27 +164,36 @@ class Transaction {
 
 
 class Ledger {
-
     private:
-        std::vector<Transaction> transactions;
+        Ledger(const Transaction& t, std::string accountNumber, std::string currency, std::string date);
+        Ledger(int id, const Transaction& t, std::string accountNumber, std::string currency, std::string date);
 
         int id;
+        Transaction transaction;
         std::string account_number;
         std::string date;
         std::string currency;
 
-
     public:
-        Ledger(Transaction& t);
-        Ledger(Transaction& t, std::string accountNumber, std::string currency, std::string date);
-        void addTransaction(const Transaction& t);
-        const std::vector<Transaction>& getAllTransactions() const;
-        std::vector<Transaction> getTransactionsByAccountHolder(const std::string& accountHolder) const;
-        std::vector<Transaction> getTransactionsByType(const std::string& type) const;
+        std::string getAccountNumber() const;
+        std::string getDate() const;
+        std::string getCurrency() const;
+        int getPrimaryKey() const;
+        void setPrimaryKey(int new_pk);
+        const Transaction& getTransaction() const;
+
         double computeNetBalance() const;
         double computeAccountBalance(const std::string& account) const;
         double computeTotalByType(const std::string& type) const;
         void printAll() const;
+
+        static Ledger createLedger(
+            const Transaction& transaction, const std::string& account_holder,
+            const std::string& currency, const std::string& date);
+
+        static Ledger createLedger(int is,
+            const Transaction& transaction, const std::string& account_holder,
+            const std::string& currency, const std::string& date);
 };
 
 #endif

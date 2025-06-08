@@ -24,5 +24,9 @@ class IStorage {
         // Transaction methods
         virtual bool saveTransaction(const Transaction& transaction) = 0;
         virtual std::vector<Transaction> getAllTransactions() = 0;
+
+        // Ledger methods
+        virtual bool saveLedger(const Ledger& ledger) = 0;
+        virtual std::vector<Ledger> loadWholeLedger() = 0;
 };
 #endif

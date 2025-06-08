@@ -180,7 +180,7 @@ bool JSONStorage::saveTransaction(const Transaction& transaction) {
 
     Transaction transaction_copy = transaction;
     transaction_copy.setPrimaryKey(next_id);
-    cout << transaction_copy.getPrimaryKey() << endl;
+
     transactions.push_back(transaction_copy);
     writeAllTransactions(transactions);
     return true;
@@ -212,4 +212,74 @@ void JSONStorage::writeAllTransactions(const std::vector<Transaction>& transacti
         j.push_back(to_json(t));
     }
     outFile << j.dump(4);
+}
+
+json ledger_to_json(const Ledger& l) {
+    json j;
+    j["id"] = l.getPrimaryKey();
+    j["account_number"] = l.getAccountNumber();
+    j["currency"] = l.getCurrency();
+    j["date"] = l.getDate();
+    j["transaction"] = to_json(l.getTransaction());
+    
+    return j;
+}
+
+Ledger ledger_from_json(const json& j) {
+    int id = j.at("id").get<int>();
+    std::string account_number = j.at("account_number").get<std::string>();
+    std::string currency = j.at("currency").get<std::string>();
+    std::string date = j.at("date").get<std::string>();
+
+    const auto& transaction_json = j.at("transaction");
+    Transaction transaction = from_json(transaction_json);
+
+    Ledger ledger = Ledger::createLedger(id, transaction, account_number, currency, date);
+    return ledger;
+}
+
+void JSONStorage::writeAllLedger(const std::vector<Ledger>& ledgers) {
+    std::ofstream outFile(filename);
+    json j = json::array();
+    for (const auto& l : ledgers) {
+        j.push_back(ledger_to_json(l));
+    }
+    outFile << j.dump(4);
+}
+
+bool JSONStorage::saveLedger(const Ledger& ledger) {
+    
+    std::vector<Ledger> ledgers = loadWholeLedger();
+    cout << "Insude the ledger storage save\n";
+
+    std::lock_guard<std::mutex> lock(fileMutex);
+    Ledger ledger_copy = ledger;
+    ledger_copy.setPrimaryKey(ledgers.size() + 1);
+    // bug
+    std::ofstream outFile(filename);
+    json j = json::array();
+    for (const auto& l : ledgers) {
+        j.push_back(ledger_to_json(l));
+    }
+    outFile << j.dump(4);
+    return true;
+}
+
+std::vector<Ledger> JSONStorage::loadWholeLedger() {
+    std::lock_guard<std::mutex> lock(fileMutex);
+    return loadAllLedger();
+}
+
+std::vector<Ledger> JSONStorage::loadAllLedger() {
+    std::ifstream inFile(filename);
+    std::vector<Ledger> ledgers;
+
+    if (inFile) {
+        json j;
+        inFile >> j;
+        for (const auto& item : j) {
+            ledgers.push_back(ledger_from_json(item));
+        }
+    }
+    return ledgers;
 }
