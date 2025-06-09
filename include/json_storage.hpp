@@ -16,6 +16,8 @@ public:
 
     bool saveTransaction(const Transaction& transaction);
     std::vector<Transaction> getAllTransactions();
+    std::optional<Transaction> findTransactionById(const std::string& transaction_id,
+                                                   const std::optional<std::string>& txn_type = std::nullopt);
 
     bool saveLedger(const Ledger& ledger);
     std::vector<Ledger> loadWholeLedger();
@@ -31,6 +33,7 @@ private:
     std::vector<Transaction> loadAllTransactions();
     void writeAllTransactions(const std::vector<Transaction>& transactions);
     int getNextTransactionID(const std::vector<Transaction>& transactions);
+
 
     std::vector<Ledger> loadAllLedger();
     void writeAllLedger(const std::vector<Ledger>& ledgers);

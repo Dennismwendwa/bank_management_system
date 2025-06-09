@@ -1,0 +1,42 @@
+[
+    {
+        "account_number": "SAV001114982",
+        "currency": "KSH",
+        "date": "2025-06-09 12:40-34",
+        "id": 1,
+        "transaction": {
+            "account_holder": "dennis",
+            "amount": 1500.0,
+            "currency": "KSH",
+            "date_time": "2025-06-09 12:40-34",
+            "description": "Transfer of money to another account",
+            "destination_account": "SAV001219737",
+            "id": 1,
+            "method": "Bank",
+            "source_account": "SAV001114982",
+            "status": "Completed",
+            "transaction_id": "TXN17494620340578794",
+            "transaction_type": "transfer_out"
+        }
+    },
+    {
+        "account_number": "SAV001219737",
+        "currency": "KSH",
+        "date": "2025-06-09 12:40-34",
+        "id": 2,
+        "transaction": {
+            "account_holder": "anna",
+            "amount": 1500.0,
+            "currency": "KSH",
+            "date_time": "2025-06-09 12:40-34",
+            "description": "Transfer of money received",
+            "destination_account": "SAV001219737",
+            "id": 2,
+            "method": "Bank",
+            "source_account": "SAV001114982",
+            "status": "Completed",
+            "transaction_id": "TXN17494620340578794",
+            "transaction_type": "transfer_in"
+        }
+    }
+]

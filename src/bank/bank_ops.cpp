@@ -40,41 +40,62 @@ void Bank::recordTransaction(const std::string& type, const SavingAccount& accou
         generateTransactionID(), getCurrentDayTime(), type,
         account.getAccountHolder(), amount, currency,
         description, status, method, account.getAccountNumber());
-
     storage->saveTransaction(trans);
 
-    Ledger new_ledger = Ledger::createLedger(trans, account.getAccountHolder(), currency, getCurrentDayTime());
-    
-    cout << "\n\nTransaction ddetail " << trans.getAmount() << endl;
-    //new_ledger.printAll();
-    cout << "\n\n";
-    
-    storage->saveLedger(new_ledger);
+    std::optional<Transaction> current_transaction = storage->findTransactionById(trans.getTransactionId());
+
+    if (current_transaction) {
+        Ledger new_ledger = Ledger::createLedger(*current_transaction, account.getAccountNumber(), currency, getCurrentDayTime());
+        storage->saveLedger(new_ledger);
+    } else {
+        // trans has unknown id
+        Ledger new_ledger = Ledger::createLedger(trans, account.getAccountNumber(), currency, getCurrentDayTime());
+        storage->saveLedger(new_ledger);
+    }
 }
 
 void Bank::recordTransaction(std::string transaction_id, const std::string& type,
-                             const SavingAccount& account,
+                             const SavingAccount& primary_account,
                              double amount, 
                              const std::string& description,
-                             const SavingAccount& from_account) {
+                             const SavingAccount& counterparty_account) {
     std::string currency = "KSH";
     std::string status = "Completed";
     std::string method = "Bank";
 
+    std::string source, destination;
+
+    if (type == "transfer_out") {
+        source = primary_account.getAccountNumber();
+        destination = counterparty_account.getAccountNumber();
+    } else if (type == "transfer_in") {
+        source = counterparty_account.getAccountNumber();
+        destination = primary_account.getAccountNumber();
+    }
+
     Transaction trans = Transaction::createTransaction(
         transaction_id, getCurrentDayTime(), type,
-        account.getAccountHolder(), amount, currency,
-        description, status, method, account.getAccountNumber(), 
-        from_account.getAccountNumber()
+        primary_account.getAccountHolder(), amount, currency,
+        description, status, method,
+        source, destination
     );
-
     storage->saveTransaction(trans);
 
-    Ledger new_ledger = Ledger::createLedger(trans, account.getAccountHolder(), currency, getCurrentDayTime());
-    cout << "\n\nTransaction ddetail " << trans.getAmount() << endl;
-    //new_ledger.printAll();
-    cout << "\n\n";
-    storage->saveLedger(new_ledger);
+    std::optional<Transaction> current_transaction;
+    if (type == "transfer_out") {
+        current_transaction = storage->findTransactionById(trans.getTransactionId(), {"transfer_out"});
+    } else if (type == "transfer_in") {
+        current_transaction = storage->findTransactionById(trans.getTransactionId(), {"transfer_in"});
+    }
+
+    if (current_transaction) {
+        Ledger new_ledger = Ledger::createLedger(*current_transaction, primary_account.getAccountNumber(), currency, getCurrentDayTime());
+        storage->saveLedger(new_ledger);
+    } else {
+        // trans has unknown id
+        Ledger new_ledger = Ledger::createLedger(trans, primary_account.getAccountNumber(), currency, getCurrentDayTime());
+        storage->saveLedger(new_ledger);
+    }
 }
 
 void Bank::saveUpdatedAccount(const SavingAccount& account) {
@@ -123,7 +144,7 @@ bool Bank::transfer(std::string id_number, std::string from_account_number, std:
     }
 
     if (from_account->getNationalId() != id_number) {
-        std::cerr << "Error: Provided ID does not match account owner.\n";
+        std::cerr << "Error: Provided ID does not match account owner ID.\n";
         return false;
     }
 

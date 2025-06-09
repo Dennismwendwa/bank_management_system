@@ -136,6 +136,14 @@ std::vector<Transaction> DatabaseStorage::getAllTransactions() {
     return {};
 }
 
+std::optional<Transaction> DatabaseStorage::findTransactionById(const std::string& transaction_id,
+                                                                const std::optional<std::string>& txn_type) {
+    // search the transaction table
+    cout << transaction_id << endl;
+    cout << *txn_type << endl;
+    return std::nullopt;
+}
+
 bool DatabaseStorage::saveLedger(const Ledger& ledger) {
     // for later
     cout << ledger.getAccountNumber();

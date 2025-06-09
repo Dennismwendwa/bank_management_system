@@ -29,6 +29,8 @@ public:
     // Transaction
     bool saveTransaction(const Transaction& transaction) override;
     std::vector<Transaction> getAllTransactions() override;
+    std::optional<Transaction> findTransactionById(const std::string& transaction_id,
+                                                   const std::optional<std::string>& txn_type = std::nullopt) override;
 
     // Ledger methods
     virtual bool saveLedger(const Ledger& transaction) override;

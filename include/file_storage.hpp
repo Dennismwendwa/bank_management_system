@@ -30,6 +30,8 @@ class FileStorage : public IStorage {
         // Transaction methods
         bool saveTransaction(const Transaction& transaction) override;
         std::vector<Transaction> getAllTransactions() override;
+        std::optional<Transaction> findTransactionById(const std::string& transaction_id,
+                                                       const std::optional<std::string>& txn_type = std::nullopt) override;
 
         // Ledger methods
         bool saveLedger(const Ledger& ledger) override;

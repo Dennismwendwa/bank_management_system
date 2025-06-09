@@ -1,6 +1,7 @@
-#include "json_storage.hpp"
 #include <fstream>
 #include <nlohmann/json.hpp>
+
+#include "json_storage.hpp"
 
 using json = nlohmann::json;
 
@@ -138,6 +139,25 @@ int JSONStorage::getNextTransactionID(const std::vector<Transaction>& transactio
     return max_id + 1;
 }
 
+std::optional<Transaction> JSONStorage::findTransactionById(const std::string& transaction_id,
+                                                            const std::optional<std::string>& txn_type) {
+    std::lock_guard<std::mutex> lock(fileMutex);
+    
+    auto transactions = loadAllTransactions();
+    for (const auto& tran : transactions) {
+        if (tran.getTransactionId() == transaction_id) {
+            if (txn_type.has_value()) {
+                if (tran.getTransactionType() == txn_type.value()) {
+                    return tran;
+                }
+            } else {
+                return tran;
+            }
+        }
+    }
+    return std::nullopt;
+}
+
 json to_json(const Transaction& t) {
     json j;
     j["id"] = t.getPrimaryKey();
@@ -250,16 +270,21 @@ void JSONStorage::writeAllLedger(const std::vector<Ledger>& ledgers) {
 bool JSONStorage::saveLedger(const Ledger& ledger) {
     
     std::vector<Ledger> ledgers = loadWholeLedger();
-    cout << "Insude the ledger storage save\n";
-
     std::lock_guard<std::mutex> lock(fileMutex);
     Ledger ledger_copy = ledger;
     ledger_copy.setPrimaryKey(ledgers.size() + 1);
-    // bug
-    std::ofstream outFile(filename);
+
+    ledgers.push_back(ledger_copy);
+
     json j = json::array();
     for (const auto& l : ledgers) {
         j.push_back(ledger_to_json(l));
+    }
+
+    std::ofstream outFile(filename);
+    if (!outFile) {
+        std::cerr << "Failed to open " << filename << " for writing\n";
+        return false;
     }
     outFile << j.dump(4);
     return true;
@@ -267,6 +292,7 @@ bool JSONStorage::saveLedger(const Ledger& ledger) {
 
 std::vector<Ledger> JSONStorage::loadWholeLedger() {
     std::lock_guard<std::mutex> lock(fileMutex);
+
     return loadAllLedger();
 }
 

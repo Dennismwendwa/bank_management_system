@@ -24,6 +24,8 @@ class IStorage {
         // Transaction methods
         virtual bool saveTransaction(const Transaction& transaction) = 0;
         virtual std::vector<Transaction> getAllTransactions() = 0;
+        virtual std::optional<Transaction> findTransactionById(const std::string& transaction_id,
+                                                               const std::optional<std::string>& txn_type = std::nullopt) = 0;
 
         // Ledger methods
         virtual bool saveLedger(const Ledger& ledger) = 0;

@@ -49,6 +49,11 @@ std::vector<Transaction> FileStorage::getAllTransactions() {
     return jsonTransactions.getAllTransactions();
 }
 
+std::optional<Transaction> FileStorage::findTransactionById(const std::string& transaction_id,
+                                                            const std::optional<std::string>& txn_type) {
+    return jsonTransactions.findTransactionById(transaction_id, txn_type);
+}
+
 // Ledger methods
 bool FileStorage::saveLedger(const Ledger& ledger) {
     cout << "\n\n file saveLeger method\n";
