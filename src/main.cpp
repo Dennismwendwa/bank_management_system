@@ -224,10 +224,23 @@ int main() {
             }
             break;
         }
-        case 5:{
+        case 5: {
             cout << "Bank statement." << endl;
-            bank.AccountStatement( )
+            std::string id_number, account, start_date, end_date;
 
+            cout << "Enter you national ID number: ";
+            cin >> id_number;
+            cout << "Enter you account number: ";
+            cin >> account;
+            cout << "Enter start date: ";
+            cin >> start_date;
+            cout << "Enter end date: ";
+            cin >> end_date;
+
+            std::vector<Ledger> all_ledgers = storage->loadWholeLedger();
+            bank.printAccountStatement(id_number, account , start_date, end_date, all_ledgers);
+
+            break;
         }
         case 6: {
             cout << "Exiting now. Bye Bye.";

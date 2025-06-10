@@ -390,6 +390,7 @@ double Ledger::computeAccountBalance(const std::string& account) const {
 
 double Ledger::computeTotalByType(const std::string& type) const {
     double total = 0.0;
+    cout << type << endl;
     
     return total;
 }
@@ -445,16 +446,31 @@ AccountStatement::AccountStatement(
         }
 
 void AccountStatement::printStatement() const {
-        std::cout << "Account Statement for: " << account_number << "\n";
-        std::cout << "From: " << start_date << " To: " << end_date << "\n";
-        std::cout << "Opening Balance: " << opening_balance << "\n";
-        std::cout << "Closing Balance: " << closing_balance << "\n";
-        std::cout << "Transactions:\n";
+    std::cout << "\n\n=========================================\n";
+    std::cout << "           BANK ACCOUNT STATEMENT        \n";
+    std::cout << "=========================================\n";
+    std::cout << "Account Number : " << account_number << "\n";
+    std::cout << "Period         : " << start_date << " to " << end_date << "\n";
+    std::cout << "Opening Balance: " << std::fixed << std::setprecision(2) << opening_balance << " KSH\n";
+    std::cout << "Closing Balance: " << std::fixed << std::setprecision(2) << closing_balance << " KSH\n";
+    std::cout << "-----------------------------------------\n";
+    std::cout << "Date       | Time     | Type         | Amount     | Currency\n";
+    std::cout << "-----------|----------|--------------|------------|---------\n";
 
-        for (const auto& ledger : ledgers_in_range) {
-            const Transaction& tx = ledger.getTransaction();
-            std::cout << " - [" << ledger.getDate() << "] "
-                      << tx.getType() << ": " << tx.getAmount()
-                      << " (" << ledger.getCurrency() << ")\n";
-        }
+    for (const auto& ledger : ledgers_in_range) {
+        const Transaction& tx = ledger.getTransaction();
+        std::string datetime = ledger.getDate();  // assuming format: YYYY-MM-DD HH:MM-SS
+        std::string date = datetime.substr(0, 10);
+        std::string time = datetime.substr(11);
+
+        std::cout << std::left
+                  << std::setw(11) << date << "| "
+                  << std::setw(8) << time << " | "
+                  << std::setw(12) << tx.getTransactionType() << " | "
+                  << std::right << std::setw(10) << std::fixed << std::setprecision(2) << tx.getAmount() << " | "
+                  << std::left << std::setw(7) << ledger.getCurrency()
+                  << "\n";
     }
+
+    std::cout << "=========================================\n\n";
+}

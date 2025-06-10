@@ -162,3 +162,20 @@ bool Bank::transfer(std::string id_number, std::string from_account_number, std:
     }
     return false;
 }
+
+void Bank::printAccountStatement(const std::string& id_number,
+                                 const std::string& account,
+                                 const std::string& start_date,
+                                 const std::string& end_date,
+                                 const std::vector<Ledger>& all_ledgers) {
+
+    std::optional<SavingAccount> acc = storage->findAccountByAccountNumber(account);
+    if (!acc || acc->getNationalId() != id_number) {
+        std::cerr << "Account not found or ID mismatch.\n";
+        return;
+    }
+
+    AccountStatement statement(account, start_date, end_date, all_ledgers);
+    statement.printStatement();
+
+}

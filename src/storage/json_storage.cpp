@@ -268,7 +268,6 @@ void JSONStorage::writeAllLedger(const std::vector<Ledger>& ledgers) {
 }
 
 bool JSONStorage::saveLedger(const Ledger& ledger) {
-    
     std::vector<Ledger> ledgers = loadWholeLedger();
     std::lock_guard<std::mutex> lock(fileMutex);
     Ledger ledger_copy = ledger;

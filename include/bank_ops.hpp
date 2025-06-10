@@ -21,6 +21,11 @@ class Bank {
                                const SavingAccount& from_account);
                                
         void saveUpdatedAccount(const SavingAccount& account);
+        void printAccountStatement(const std::string& id_number,
+                                 const std::string& account,
+                                 const std::string& start_date,
+                                 const std::string& end_date,
+                                 const std::vector<Ledger>& all_ledgers);
 
     private:
         std::shared_ptr<IStorage> storage;
