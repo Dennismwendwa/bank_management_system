@@ -350,7 +350,7 @@ Ledger
 Ledger::Ledger(const Transaction& t, std::string account_holder, std::string currency, std::string date
     ) : transaction(t), account_number(account_holder), date(date), currency(currency) {}
 Ledger::Ledger(int id, const Transaction& t, std::string accountNumber, std::string currency, std::string date)
-    : id(id), transaction(t), account_number(std::move(accountNumber)), currency(std::move(currency)), date(std::move(date)) {}
+    : id(id), transaction(t), account_number(std::move(accountNumber)), date(std::move(date)), currency(std::move(currency)) {}
 
 
 std::string Ledger::getAccountNumber() const { return account_number; }
@@ -411,3 +411,50 @@ void Ledger::printAll() const {
     std::cout << "----------------------------------------------\n";
 
 }
+
+
+AccountStatement::AccountStatement(
+            const std::string& account,
+            const std::string& start_date,
+            const std::string& end_date,
+            const std::vector<Ledger>& all_ledgers
+        ) : account_number(account),
+            start_date(start_date),
+            end_date(end_date),
+            opening_balance(0),
+            closing_balance(0)
+        {
+            opening_balance = 0;
+            closing_balance = 0;
+
+            for (const auto& ledger : all_ledgers) {
+                if (ledger.getAccountNumber() != account_number) continue;
+
+                std::string tx_date = ledger.getDate();
+                double amount = ledger.getTransaction().getAmount();
+
+                if (tx_date < start_date) {
+                    opening_balance += amount;
+                } else if (tx_date >= start_date && tx_date <= end_date) {
+                    ledgers_in_range.push_back(ledger);
+                    closing_balance += amount;
+                }
+            }
+
+        closing_balance += opening_balance;
+        }
+
+void AccountStatement::printStatement() const {
+        std::cout << "Account Statement for: " << account_number << "\n";
+        std::cout << "From: " << start_date << " To: " << end_date << "\n";
+        std::cout << "Opening Balance: " << opening_balance << "\n";
+        std::cout << "Closing Balance: " << closing_balance << "\n";
+        std::cout << "Transactions:\n";
+
+        for (const auto& ledger : ledgers_in_range) {
+            const Transaction& tx = ledger.getTransaction();
+            std::cout << " - [" << ledger.getDate() << "] "
+                      << tx.getType() << ": " << tx.getAmount()
+                      << " (" << ledger.getCurrency() << ")\n";
+        }
+    }

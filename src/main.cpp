@@ -130,7 +130,8 @@ int main() {
         cout << "2). Deposit money.\n";
         cout << "3). Withdraw money.\n";
         cout << "4). Transfer money.\n";
-        cout << "5). Exit.\n";
+        cout << "5). Get bank statement.\n";
+        cout << "6). Exit.\n";
         cout << "Your choise: ";
 
         cin >> my_choice;
@@ -223,7 +224,12 @@ int main() {
             }
             break;
         }
-        case 5: {
+        case 5:{
+            cout << "Bank statement." << endl;
+            bank.AccountStatement( )
+
+        }
+        case 6: {
             cout << "Exiting now. Bye Bye.";
             bank_options = false;
             break;

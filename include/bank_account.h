@@ -162,7 +162,6 @@ class Transaction {
         std::optional<std::string> destination_account = std::nullopt; //
 };
 
-
 class Ledger {
     private:
         Ledger(const Transaction& t, std::string accountNumber, std::string currency, std::string date);
@@ -195,5 +194,31 @@ class Ledger {
             const Transaction& transaction, const std::string& account_holder,
             const std::string& currency, const std::string& date);
 };
+
+
+class AccountStatement {
+    friend class Bank;
+    private:
+        std::string account_number;
+        std::string start_date;
+        std::string end_date;
+
+        std::vector<Ledger> ledgers_in_range;
+
+        double opening_balance = 0;
+        double closing_balance = 0;
+        double total_debits = 0;
+        double total_credits = 0;
+
+    public:
+        AccountStatement(
+            const std::string& account,
+            const std::string& start_date,
+            const std::string& end_date,
+            const std::vector<Ledger>& all_ledgers);
+
+        void printStatement() const;
+};
+
 
 #endif
